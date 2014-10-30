@@ -1,4 +1,6 @@
-# Ember-cli-ember-table
+# Work In Progress!!
+
+# ember-cli-ember-table
 
 This README outlines the details of collaborating on this Ember addon.
 
