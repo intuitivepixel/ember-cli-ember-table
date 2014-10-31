@@ -6,10 +6,7 @@ module.exports = {
   afterInstall: function() {
     var addonContext = this;
 
-    return this.addBowerPackageToProject('ember-table', '~0.2.2')
-      .then(function() {
-        return addonContext.addBowerPackageToProject('jquery-ui', '1.10.1');
-      })
+    return this.addBowerPackageToProject('jquery-ui', '1.10.1')
       .then(function() {
         return addonContext.addBowerPackageToProject('jquery-mousewheel', '~3.1.4');
       })

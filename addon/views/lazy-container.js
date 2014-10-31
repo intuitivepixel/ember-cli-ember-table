@@ -19,18 +19,22 @@ export default Ember.ContainerView.extend(StyleBindingsMixin, {
   numChildViews: Ember.computed(function() {
     return this.get('numItemsShowing') + 2;
   }).property('numItemsShowing'),
+
   onNumChildViewsDidChange: Ember.observer(function() {
     var itemViewClass, newNumViews, numViewsToInsert, oldNumViews, view, viewsToAdd, viewsToRemove, _i, _results;
     view = this;
 
-    // We are getting the class from a string e.g. "Ember.Table.Row"
+    /* We are getting the class from a string e.g. "Ember.Table.Row" */
+    itemViewClass = this.get('itemViewClass');
     if (typeof itemViewClass === 'string') {
       if (/[A-Z]+/.exec(itemViewClass)) {
 
-        // Global var lookup - 'App.MessagePreviewView'
+        /* Global var lookup - 'App.MessagePreviewView' */
+        itemViewClass = Ember.get(Ember.lookup, itemViewClass);
       } else {
 
-        // Ember CLI Style lookup - 'message/preview'
+        /* Ember CLI Style lookup - 'message/preview' */
+        itemViewClass = this.container.lookupFactory("view:" + itemViewClass);
       }
     }
     newNumViews = this.get('numChildViews');
@@ -40,12 +44,14 @@ export default Ember.ContainerView.extend(StyleBindingsMixin, {
     oldNumViews = this.get('length');
     numViewsToInsert = newNumViews - oldNumViews;
 
-    // if newNumViews < oldNumViews we need to remove some views
+    /* if newNumViews < oldNumViews we need to remove some views */
+    if (numViewsToInsert < 0) {
       viewsToRemove = this.slice(newNumViews, oldNumViews);
       return this.removeObjects(viewsToRemove);
     } else if (numViewsToInsert > 0) {
 
-      // if oldNumViews < newNumViews we need to add more views
+      /* if oldNumViews < newNumViews we need to add more views */
+      viewsToAdd = (function() {
         _results = [];
         for (var _i = 0; 0 <= numViewsToInsert ? _i < numViewsToInsert : _i > numViewsToInsert; 0 <= numViewsToInsert ? _i++ : _i--){ _results.push(_i); }
         return _results;

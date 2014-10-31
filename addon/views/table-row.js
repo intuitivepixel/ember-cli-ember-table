@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import LazyItemView from 'ember-cli-ember-table/view/lazy-item';
+import LazyItemView from 'ember-cli-ember-table/views/lazy-item';
 
 export default LazyItemView.extend({
   templateName: 'table-row',

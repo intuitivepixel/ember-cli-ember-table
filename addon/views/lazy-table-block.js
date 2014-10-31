@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import LazyContainerView from 'ember-cli-ember-table/view/lazy-container';
+import LazyContainerView from 'ember-cli-ember-table/views/lazy-container';
 
 export default LazyContainerView.extend({
   classNames: ['ember-table-table-block'],
