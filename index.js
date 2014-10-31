@@ -7,6 +7,8 @@ module.exports = {
 
     //app.import(app.bowerDirectory + '/ember-table/dist/ember-table.css');
     app.import(app.bowerDirectory + '/antiscroll/antiscroll.css');
+    // Make this work
+    //app.import('app/styles/ember-table.css');
 
     app.import(app.bowerDirectory + '/antiscroll/antiscroll.js');
     app.import(app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.js');

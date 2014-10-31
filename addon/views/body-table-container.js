@@ -8,7 +8,7 @@ import TableContainer from '../views/table-container';
 var BodyTableContainer;
 
 BodyTableContainer = TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHandlerMixin, ScrollHandlerMixin, ShowHorizontalScrollMixin, {
-  templateName: 'body-container',
+  templateName: 'body-table-container',
   classNames: ['ember-table-table-container', 'ember-table-body-container', 'antiscroll-wrap'],
   height: Ember.computed.alias('controller._bodyHeight'),
   width: Ember.computed.alias('controller._width'),
