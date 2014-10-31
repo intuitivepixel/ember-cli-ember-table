@@ -1,10 +1,11 @@
 import Ember from 'ember';
-import StyleBindingsMixin from 'ember-cli-ember-table/mixins/style-bindings-mixin';
-import ResizeHandlerMixin from 'ember-cli-ember-table/mixins/resize-handler-mixin';
-import RowArrayController from 'ember-cli-ember-table/controllers/row';
+import StyleBindingsMixin from '../mixins/style-bindings-mixin';
+import ResizeHandlerMixin from '../mixins/resize-handler-mixin';
+import RowArrayController from '../controllers/row';
 
-export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
-  layoutName: 'components/ember-table',
+var EmberTableComponent;
+
+EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
   classNames: ['ember-table-tables-container'],
   classNameBindings: ['enableContentSelection:ember-table-content-selectable'],
 
@@ -67,7 +68,8 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
    */
   footerHeight: 30,
 
-  // Enables or disables the header block.
+  /* Enables or disables the header block. */
+  hasHeader: true,
 
   /*
   Enables or disables the footer block.
@@ -90,7 +92,8 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
    */
   enableColumnReorder: true,
 
-  // Allow users to select the content of table cells.
+  /* Allow users to select the content of table cells. */
+  enableContentSelection: false,
 
   /*
   Sets which row selection behavior to follow. Possible values are 'none'
@@ -152,12 +155,11 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     }
   },
 
-  // TODO: Document
+  /* TODO: Document */
   actions: {
     addColumn: Ember.K,
     sortByColumn: Ember.K
   },
-
   height: Ember.computed.alias('_tablesContainerHeight'),
 
   /*
@@ -173,53 +175,47 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     return columns.insertAt(newIndex, column);
   },
 
-  // An array of Ember.Table.Row computed based on `content`
-  bodyContent: Ember.computed('content', function() {
-    var row = this.container.lookup('controller:row');
+  /* An array of Ember.Table.Row computed based on `content` */
+  bodyContent: Ember.computed(function() {
     return RowArrayController.create({
       target: this,
       parentController: this,
       container: this.get('container'),
-      itemController: row,
+      itemController: 'row',
       content: this.get('content')
     });
-  }),
+  }).property('content'),
 
-  footerContent: Ember.computed(function() {
-  // An array of Ember.Table.Row
+  /* An array of Ember.Table.Row */
+  footerContent: Ember.computed(function(key, value) {
     if (value) {
       return value;
     } else {
       return Ember.A();
     }
-  }),
-
-  fixedColumns: Ember.computed('columns.@each', 'numFixedColumns', function() {
+  }).property(),
+  fixedColumns: Ember.computed(function() {
     var columns, numFixedColumns;
     columns = this.get('columns');
     if (!columns) {
       return Ember.A();
     }
     numFixedColumns = this.get('numFixedColumns') || 0;
-    if(numFixedColumns > 0){
-      columns = columns.slice(0, numFixedColumns) || [];
-    }
-    return  this.prepareTableColumns(columns);
-  }),
-
-  tableColumns: Ember.computed('columns.@each', 'numFixedColumns', function() {
+    columns = columns.slice(0, numFixedColumns) || [];
+    this.prepareTableColumns(columns);
+    return columns;
+  }).property('columns.@each', 'numFixedColumns'),
+  tableColumns: Ember.computed(function() {
     var columns, numFixedColumns;
     columns = this.get('columns');
     if (!columns) {
       return Ember.A();
     }
     numFixedColumns = this.get('numFixedColumns') || 0;
-    if(numFixedColumns > 0){
-      columns = columns.slice(numFixedColumns, columns.get('length')) || [];
-    }
-    return this.prepareTableColumns(columns);
-  }),
-
+    columns = columns.slice(numFixedColumns, columns.get('length')) || [];
+    this.prepareTableColumns(columns);
+    return columns;
+  }).property('columns.@each', 'numFixedColumns'),
   prepareTableColumns: function(columns) {
     return columns.setEach('controller', this);
   },
@@ -259,10 +255,11 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     return Ember.run.next(this, this.updateLayout);
   },
   updateLayout: function() {
+
+    /* updating antiscroll */
     if ((this.get('_state') || this.get('state')) !== 'inDOM') {
       return;
     }
-    // updating antiscroll
     this.$('.antiscroll-wrap').antiscroll().data('antiscroll').rebuild();
     if (this.get('forceFillColumns')) {
       return this.doForceFillColumns();
@@ -270,7 +267,8 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
   },
   doForceFillColumns: function() {
 
-    // Expand the columns if there's extra space
+    /* Expand the columns if there's extra space */
+    var additionWidthPerColumn, availableContentWidth, columnsToResize, contentWidth, fixedColumnsWidth, remainingWidth, tableColumns, totalWidth;
     totalWidth = this.get('_width');
     fixedColumnsWidth = this.get('_fixedColumnsWidth');
     tableColumns = this.get('tableColumns');
@@ -285,12 +283,11 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
       return column.set('columnWidth', columnWidth);
     });
   },
-
-  onBodyContentLengthDidChange: Ember.observer('bodyContent.length', function() {
+  onBodyContentLengthDidChange: Ember.observer(function() {
     return Ember.run.next(this, function() {
       return Ember.run.once(this, this.updateLayout);
     });
-  }),
+  }, 'bodyContent.length'),
 
   /*
    * ---------------------------------------------------------------------------
@@ -312,7 +309,6 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
       return false;
     }
   }).property('_height', '_tableContentHeight', '_headerHeight', '_footerHeight'),
-
   _hasHorizontalScrollbar: Ember.computed(function() {
     var contentWidth, tableWidth;
     contentWidth = this.get('_tableColumnsWidth');
@@ -324,7 +320,7 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     }
   }).property('_tableColumnsWidth', '_width', '_fixedColumnsWidth'),
 
-  // tables-container height adjusts to the content height
+  /* tables-container height adjusts to the content height */
   _tablesContainerHeight: Ember.computed(function() {
     var contentHeight, height;
     height = this.get('_height');
@@ -336,13 +332,14 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     }
   }).property('_height', '_tableContentHeight', '_headerHeight', '_footerHeight'),
 
-  // Actual width of the fixed columns
+  /* Actual width of the fixed columns */
   _fixedColumnsWidth: Ember.computed(function() {
     return this._getTotalWidth(this.get('fixedColumns'));
   }).property('fixedColumns.@each.columnWidth'),
 
-  // Actual width of the (non-fixed) columns
+  /* Actual width of the (non-fixed) columns */
   _tableColumnsWidth: Ember.computed(function() {
+
     /*
     Hack: We add 3px padding to the right of the table content so that we can
     reorder into the last column.
@@ -356,7 +353,6 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
       return availableWidth;
     }
   }).property('tableColumns.@each.columnWidth', '_width', '_fixedColumnsWidth'),
-
   _rowWidth: Ember.computed(function() {
     var columnsWidth, nonFixedTableWidth;
     columnsWidth = this.get('_tableColumnsWidth');
@@ -367,7 +363,7 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     return columnsWidth;
   }).property('_fixedColumnsWidth', '_tableColumnsWidth', '_tableContainerWidth'),
 
-  // Dynamic header height that adjusts according to the header content height
+  /* Dynamic header height that adjusts according to the header content height */
   _headerHeight: Ember.computed(function() {
     var contentHeaderHeight, minHeight;
     minHeight = this.get('minHeaderHeight');
@@ -379,7 +375,7 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     }
   }).property('_contentHeaderHeight', 'minHeaderHeight'),
 
-  // Dynamic footer height that adjusts according to the footer content height
+  /* Dynamic footer height that adjusts according to the footer content height */
   _footerHeight: Ember.computed(function() {
     if (this.get('hasFooter')) {
       return this.get('footerHeight');
@@ -387,7 +383,6 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
       return 0;
     }
   }).property('footerHeight', 'hasFooter'),
-
   _bodyHeight: Ember.computed(function() {
     var bodyHeight;
     bodyHeight = this.get('_tablesContainerHeight');
@@ -399,29 +394,22 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     }
     return bodyHeight;
   }).property('_tablesContainerHeight', '_hasHorizontalScrollbar', '_headerHeight', 'footerHeight', 'hasHeader', 'hasFooter'),
-
   _tableBlockWidth: Ember.computed(function() {
     return this.get('_width') - this.get('_fixedColumnsWidth');
   }).property('_width', '_fixedColumnsWidth'),
-
   _fixedBlockWidthBinding: '_fixedColumnsWidth',
-
   _tableContentHeight: Ember.computed(function() {
     return this.get('rowHeight') * this.get('bodyContent.length');
   }).property('rowHeight', 'bodyContent.length'),
-
   _tableContainerWidth: Ember.computed(function() {
     return this.get('_width');
   }).property('_width'),
-
   _scrollContainerWidth: Ember.computed(function() {
     return this.get('_width') - this.get('_fixedColumnsWidth');
   }).property('_width', '_fixedColumnsWidth'),
-
   _numItemsShowing: Ember.computed(function() {
     return Math.floor(this.get('_bodyHeight') / this.get('rowHeight'));
   }).property('_bodyHeight', 'rowHeight'),
-
   _startIndex: Ember.computed(function() {
     var index, numContent, numViews, rowHeight, scrollTop;
     numContent = this.get('bodyContent.length');
@@ -430,8 +418,8 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     scrollTop = this.get('_tableScrollTop');
     index = Math.floor(scrollTop / rowHeight);
 
-    // adjust start index so that end index doesn't exceed content length
-    if ((index + numViews) >= numContent){
+    /* adjust start index so that end index doesn't exceed content length */
+    if (index + numViews >= numContent) {
       index = numContent - numViews;
     }
     if (index < 0) {
@@ -440,7 +428,6 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
       return index;
     }
   }).property('bodyContent.length', '_numItemsShowing', 'rowHeight', '_tableScrollTop'),
-
   _getTotalWidth: function(columns, columnWidthPath) {
     var widths;
     if (columnWidthPath == null) {
@@ -464,7 +451,6 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
   isSelected: function(row) {
     return this.get('_selection').contains(row);
   },
-
   setSelected: function(row, val) {
     this.persistSelection();
     if (val) {
@@ -482,15 +468,13 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     return new Ember.Set();
   }),
 
+  /* rows that are part of the currently editable range selection */
   rangeSelection: Ember.computed(function() {
-  // rows that are part of the currently editable range selection
     return new Ember.Set();
   }),
-
   _selection: Ember.computed(function() {
     return this.get('persistedSelection').copy().addEach(this.get('rangeSelection'));
   }).property('persistedSelection.[]', 'rangeSelection.[]'),
-
   click: function(event) {
     var curIndex, lastIndex, maxIndex, minIndex, row;
     row = this.getRowForEvent(event);
@@ -554,3 +538,8 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
     }
   }
 });
+
+
+/* Ember.Handlebars.helper('ember-table', EmberTableComponent) */
+
+export default EmberTableComponent;

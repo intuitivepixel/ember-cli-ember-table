@@ -1,6 +1,7 @@
 import Ember from 'ember';
+var RowArrayController;
 
-export default Ember.ArrayController.extend({
+RowArrayController = Ember.ArrayController.extend({
   itemController: null,
   content: null,
   rowContent: Ember.computed(function() {
@@ -14,7 +15,7 @@ export default Ember.ArrayController.extend({
     if (subController) {
       return subController;
     }
-    subController = this.get('itemController').reopen({
+    subController = this.get('itemController').create({
       target: this,
       parentController: this.get('parentController') || this,
       content: object
@@ -23,3 +24,5 @@ export default Ember.ArrayController.extend({
     return subController;
   }
 });
+
+export default RowArrayController;

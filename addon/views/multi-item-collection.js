@@ -1,22 +1,28 @@
 import Ember from 'ember';
-import StyleBindingsMixin from 'ember-cli-ember-table/mixins/style-bindings-mixin';
+import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
-export default Ember.CollectionView.extend(StyleBindingsMixin, {
-    styleBindings: 'width',
-    itemViewClassField: null,
-    createChildView: function(view, attrs) {
-      var itemViewClass, itemViewClassField;
-      itemViewClassField = this.get('itemViewClassField');
-      itemViewClass = attrs.content.get(itemViewClassField);
-      if (typeof itemViewClass === 'string') {
-        if (/[A-Z]+/.exec(itemViewClass)) {
+var MultiItemViewCollectionView;
 
-          // Global var lookup - 'App.MessagePreviewView'
-        } else {
+MultiItemViewCollectionView = Ember.CollectionView.extend(StyleBindingsMixin, {
+  styleBindings: 'width',
+  itemViewClassField: null,
+  createChildView: function(view, attrs) {
+    var itemViewClass, itemViewClassField;
+    itemViewClassField = this.get('itemViewClassField');
+    itemViewClass = attrs.content.get(itemViewClassField);
+    if (typeof itemViewClass === 'string') {
+      if (/[A-Z]+/.exec(itemViewClass)) {
 
-          // Ember CLI Style lookup - 'message/preview'
-        }
+        /* Global var lookup - 'App.MessagePreviewView' */
+        itemViewClass = Ember.get(Ember.lookup, itemViewClass);
+      } else {
+
+        /* Ember CLI Style lookup - 'message/preview' */
+        itemViewClass = this.container.lookupFactory("view:" + itemViewClass);
       }
-      return this._super(itemViewClass, attrs);
     }
-  });
+    return this._super(itemViewClass, attrs);
+  }
+});
+
+export default MultiItemViewCollectionView;

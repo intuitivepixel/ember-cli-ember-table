@@ -1,14 +1,37 @@
 import Ember from 'ember';
-import StyleBindingsMixin from 'ember-cli-ember-table/mixins/style-bindings-mixin';
+import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
-export default Ember.View.extend(StyleBindingsMixin, {
+var HeaderCell;
+
+HeaderCell = Ember.View.extend(StyleBindingsMixin, {
+
+  /*
+   * ---------------------------------------------------------------------------
+   * API - Inputs
+   * ---------------------------------------------------------------------------
+   */
+
+  /*
+  TODO: Doc
+  templateName:       'header-cell'
+  classNames:         ['ember-table-cell', 'ember-table-header-cell']
+  classNameBindings:  ['column.isSortable:sortable', 'column.textAlign']
+  styleBindings:      ['width', 'height']
+   */
+
+  /*
+   * ---------------------------------------------------------------------------
+   * Internal properties
+   * ---------------------------------------------------------------------------
+   */
   column: Ember.computed.alias('content'),
   width: Ember.computed.alias('column.columnWidth'),
-  height: Ember.computed('controller._headerHeight', function() {
+  height: Ember.computed(function() {
     return this.get('controller._headerHeight');
-  }),
+  }).property('controller._headerHeight'),
+
+  /* jQuery UI resizable option */
   resizableOption: Ember.computed(function() {
-    // jQuery UI resizable option
     return {
       handles: 'e',
       minHeight: 40,
@@ -24,12 +47,13 @@ export default Ember.View.extend(StyleBindingsMixin, {
     if (this.get('column.isResizable')) {
       this.$().resizable(this.get('resizableOption'));
       this._resizableWidget = this.$().resizable('widget');
-      return;
     }
   },
-  onColumnResize: function (event, ui) {
-    // `event` here is a jQuery event
+
+  /* `event` here is a jQuery event */
+  onColumnResize: function(event, ui) {
     this.elementSizeDidChange();
+
     /*
     Special case for force-filled columns: if this is the last column you
     resize (or the only column), then it will be reset to before the resize
@@ -44,12 +68,16 @@ export default Ember.View.extend(StyleBindingsMixin, {
     var maxHeight;
     maxHeight = 0;
 
-    // TODO(Louis): This seems bad...
-    var thisHeight;
-    thisHeight = $(this).outerHeight();
-    if (thisHeight > maxHeight) {
-      maxHeight = thisHeight;
-    }
+    /* TODO(Louis): This seems bad... */
+    $('.ember-table-header-block .ember-table-content').each(function() {
+      var thisHeight;
+      thisHeight = $(this).outerHeight();
+      if (thisHeight > maxHeight) {
+        return maxHeight = thisHeight;
+      }
+    });
     this.set('controller._contentHeaderHeight', maxHeight);
   }
 });
+
+export default HeaderCell;

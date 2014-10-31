@@ -1,7 +1,29 @@
 import Ember from 'ember';
-import StyleBindingsMixin from 'ember-cli-ember-table/mixins/style-bindings-mixin';
+import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
-export default Ember.View.extend(StyleBindingsMixin, {
+var TableCell;
+
+TableCell = Ember.View.extend(StyleBindingsMixin, {
+
+  /*
+   * ---------------------------------------------------------------------------
+   * API - Inputs
+   * ---------------------------------------------------------------------------
+   */
+
+  /*
+  TODO: Doc
+  templateName:       'table-cell'
+  classNames:         ['ember-table-cell']
+  classNameBindings:  'column.textAlign'
+  styleBindings:      'width'
+   */
+
+  /*
+   * ---------------------------------------------------------------------------
+   * Internal properties
+   * ---------------------------------------------------------------------------
+   */
   init: function() {
     this._super();
     this.contentPathDidChange();
@@ -27,7 +49,7 @@ export default Ember.View.extend(StyleBindingsMixin, {
       return this.addObserver("row." + contentPath, this, this.contentDidChange);
     }
   }).observesBefore('column.contentPath'),
-  cellContent: Ember.computed('row.isLoaded', 'column', function(key, value) {
+  cellContent: Ember.computed(function(key, value) {
     var column, row;
     row = this.get('row');
     column = this.get('column');
@@ -40,5 +62,7 @@ export default Ember.View.extend(StyleBindingsMixin, {
       column.setCellContent(row, value);
     }
     return value;
-  })
+  }).property('row.isLoaded', 'column')
 });
+
+export default TableCell;

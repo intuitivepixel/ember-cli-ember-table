@@ -1,7 +1,9 @@
 import Ember from 'ember';
-import StyleBindingsMixin from 'ember-cli-ember-table/mixins/style-bindings-mixin';
+import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
-export default Ember.ContainerView.extend(StyleBindingsMixin, {
+var LazyContainerView;
+
+LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
   classNames: 'lazy-list-container',
   styleBindings: ['height'],
   content: null,
@@ -19,9 +21,8 @@ export default Ember.ContainerView.extend(StyleBindingsMixin, {
   numChildViews: Ember.computed(function() {
     return this.get('numItemsShowing') + 2;
   }).property('numItemsShowing'),
-
-  onNumChildViewsDidChange: Ember.observer('numChildViews', 'itemViewClass', function() {
-    var itemViewClass, newNumViews, numViewsToInsert, oldNumViews, view, viewsToAdd, viewsToRemove;
+  onNumChildViewsDidChange: Ember.observer(function() {
+    var itemViewClass, newNumViews, numViewsToInsert, oldNumViews, view, viewsToAdd, viewsToRemove, _i, _results;
     view = this;
 
     /* We are getting the class from a string e.g. "Ember.Table.Row" */
@@ -51,16 +52,16 @@ export default Ember.ContainerView.extend(StyleBindingsMixin, {
     } else if (numViewsToInsert > 0) {
 
       /* if oldNumViews < newNumViews we need to add more views */
-      viewsToAdd = [];
-
-      for (var i = numViewsToInsert - 1; i >= 0; i--) {
-        view.createChildView(itemViewClass);
-        viewsToAdd.push(view);
-      };
-
-      return viewsToAdd;
+      viewsToAdd = (function() {
+        _results = [];
+        for (var _i = 0; 0 <= numViewsToInsert ? _i < numViewsToInsert : _i > numViewsToInsert; 0 <= numViewsToInsert ? _i++ : _i--){ _results.push(_i); }
+        return _results;
+      }).apply(this).map(function() {
+        return view.createChildView(itemViewClass);
+      });
+      return this.pushObjects(viewsToAdd);
     }
-  }),
+  }, 'numChildViews', 'itemViewClass'),
 
   /*
   TODO(Peter): Consider making this a computed... binding logic will go
@@ -107,3 +108,5 @@ export default Ember.ContainerView.extend(StyleBindingsMixin, {
     }, this);
   }, 'content.length', 'length', 'startIndex')
 });
+
+export default LazyContainerView;

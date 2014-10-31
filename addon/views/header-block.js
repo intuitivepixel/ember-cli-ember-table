@@ -1,10 +1,14 @@
 import Ember from 'ember';
-import TableBlock from 'ember-cli-ember-table/views/table-block';
+import TableBlock from '../views/table-block';
 
-export default TableBlock.extend({
+var HeaderBlock;
+
+HeaderBlock = TableBlock.extend({
   classNames: ['ember-table-header-block'],
   itemViewClass: 'header-row',
-  content: Ember.computed('columns', function() {
+  content: Ember.computed(function() {
     return [this.get('columns')];
-  })
+  }).property('columns')
 });
+
+export default HeaderBlock;

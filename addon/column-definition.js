@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
-export default Ember.Object.extend({
+var ColumnDefinition = Ember.Object.extend({
+
   /*
    * ---------------------------------------------------------------------------
    * API - Inputs
@@ -38,7 +39,8 @@ export default Ember.Object.extend({
    */
   defaultColumnWidth: 150,
 
-  // Whether the column can be manually resized.
+  /* Whether the column can be manually resized. */
+  isResizable: true,
 
   /*
   Whether the column can be rearranged with other columns. Only matters if
@@ -106,3 +108,5 @@ export default Ember.Object.extend({
     return this.set('columnWidth', width);
   }
 });
+
+export default ColumnDefinition;

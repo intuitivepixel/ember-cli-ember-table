@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Mixin.create({
+var MouseWheelHandlerMixin;
+
+MouseWheelHandlerMixin = Ember.Mixin.create({
   onMouseWheel: Ember.K,
   didInsertElement: function() {
     this._super();
@@ -18,3 +20,5 @@ export default Ember.Mixin.create({
     return this._super();
   }
 });
+
+export default MouseWheelHandlerMixin;

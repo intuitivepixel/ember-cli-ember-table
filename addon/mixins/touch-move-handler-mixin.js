@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Mixin.create({
+var TouchMoveHandlerMixin;
+
+TouchMoveHandlerMixin = Ember.Mixin.create({
   onTouchMove: Ember.K,
   didInsertElement: function() {
     var startX, startY;
@@ -31,3 +33,5 @@ export default Ember.Mixin.create({
     return this._super();
   }
 });
+
+export default TouchMoveHandlerMixin;

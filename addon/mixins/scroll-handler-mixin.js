@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Mixin.create({
+var ScrollHandlerMixin;
+
+ScrollHandlerMixin = Ember.Mixin.create({
   onScroll: Ember.K,
   scrollElementSelector: '',
   didInsertElement: function() {
@@ -19,3 +21,5 @@ export default Ember.Mixin.create({
     return this._super();
   }
 });
+
+export default ScrollHandlerMixin;

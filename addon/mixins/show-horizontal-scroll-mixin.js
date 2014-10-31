@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
-export default Ember.Mixin.create({
-// HACK: We want the horizontal scroll to show on mouse enter and leave.
+/* HACK: We want the horizontal scroll to show on mouse enter and leave. */
+var ShowHorizontalScrollMixin;
+
+ShowHorizontalScrollMixin = Ember.Mixin.create({
   mouseEnter: function(event) {
     var $horizontalScroll, $tablesContainer;
     $tablesContainer = $(event.target).parents('.ember-table-tables-container');
@@ -15,3 +17,5 @@ export default Ember.Mixin.create({
     return $horizontalScroll.removeClass('antiscroll-scrollbar-shown');
   }
 });
+
+export default ShowHorizontalScrollMixin;

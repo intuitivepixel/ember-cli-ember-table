@@ -1,7 +1,9 @@
 import Ember from 'ember';
-import StyleBindingsMixin from 'ember-cli-ember-table/mixins/style-bindings-mixin';
+import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
-export default Ember.View.extend(StyleBindingsMixin, {
+var LazyItemView;
+
+LazyItemView = Ember.View.extend(StyleBindingsMixin, {
   itemIndex: null,
   prepareContent: Ember.K,
   teardownContent: Ember.K,
@@ -16,3 +18,5 @@ export default Ember.View.extend(StyleBindingsMixin, {
     }
   }).property('content')
 });
+
+export default LazyItemView;

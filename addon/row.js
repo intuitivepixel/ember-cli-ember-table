@@ -1,13 +1,15 @@
 import Ember from 'ember';
 
-export default Ember.ObjectProxy.extend({
+var Row = Ember.ObjectProxy.extend({
   content: null,
-  isSelected: Ember.computed('parentController._selection.[]', function(key, val) {
+  isSelected: Ember.computed(function(key, val) {
     if (arguments.length > 1) {
       this.get('parentController').setSelected(this, val);
     }
     return this.get('parentController').isSelected(this);
-  }),
+  }).property('parentController._selection.[]'),
   isShowing: true,
   isHovered: false
 });
+
+export default Row;

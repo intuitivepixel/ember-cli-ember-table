@@ -1,19 +1,21 @@
 import Ember from 'ember';
-import StyleBindingsMixin from 'ember-cli-ember-table/mixins/style-bindings-mixin';
+import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
 /*
- * We hacked this. There is an inconsistency at the level in which we are
- * handling scroll event...
-*/
+We hacked this. There is an inconsistency at the level in which we are
+handling scroll event...
+ */
+var HeaderRow;
 
-export default Ember.View.extend(StyleBindingsMixin, {
+HeaderRow = Ember.View.extend(StyleBindingsMixin, {
   templateName: 'header-row',
   classNames: ['ember-table-table-row', 'ember-table-header-row'],
   styleBindings: ['width'],
   columns: Ember.computed.alias('content'),
   width: Ember.computed.alias('controller._rowWidth'),
   scrollLeft: Ember.computed.alias('controller._tableScrollLeft'),
-  // Options for jQuery UI sortable
+
+  /* Options for jQuery UI sortable */
   sortableOption: Ember.computed(function() {
     return {
       axis: 'x',
@@ -30,9 +32,9 @@ export default Ember.View.extend(StyleBindingsMixin, {
       sort: jQuery.proxy(this.onColumnSortChange, this)
     };
   }),
-  onScrollLeftDidChange: Ember.observer('scrollLeft', function() {
+  onScrollLeftDidChange: Ember.observer(function() {
     return this.$().scrollLeft(this.get('scrollLeft'));
-  }),
+  }, 'scrollLeft'),
   didInsertElement: function() {
     this._super();
     if (this.get('controller.enableColumnReorder')) {
@@ -61,3 +63,5 @@ export default Ember.View.extend(StyleBindingsMixin, {
     return this.set('controller._isShowingSortableIndicator', false);
   }
 });
+
+export default HeaderRow;

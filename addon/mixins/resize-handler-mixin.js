@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+/* global jQuery */
+
 export default Ember.Mixin.create({
   resizeEndDelay: 200,
   resizing: false,
