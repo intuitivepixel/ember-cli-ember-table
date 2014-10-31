@@ -164,7 +164,7 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
   TODO(new-api): eliminate view alias
   specify the view class to use for rendering the table rows
    */
-  tableRowView: 'Ember.Table.TableRow',
+  tableRowView: 'table-row',
   tableRowViewClass: Ember.computed.alias('tableRowView'),
   onColumnSort: function(column, newIndex) {
     var columns;
@@ -175,11 +175,12 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
 
   // An array of Ember.Table.Row computed based on `content`
   bodyContent: Ember.computed('content', function() {
+    var row = this.container.lookup('controller:row');
     return RowArrayController.create({
       target: this,
       parentController: this,
       container: this.get('container'),
-      itemController: Ember.Table.Row,
+      itemController: row,
       content: this.get('content')
     });
   }),
@@ -200,9 +201,10 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
       return Ember.A();
     }
     numFixedColumns = this.get('numFixedColumns') || 0;
-    columns = columns.slice(0, numFixedColumns) || [];
-    this.prepareTableColumns(columns);
-    return columns;
+    if(numFixedColumns > 0){
+      columns = columns.slice(0, numFixedColumns) || [];
+    }
+    return  this.prepareTableColumns(columns);
   }),
 
   tableColumns: Ember.computed('columns.@each', 'numFixedColumns', function() {
@@ -212,9 +214,10 @@ export default Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
       return Ember.A();
     }
     numFixedColumns = this.get('numFixedColumns') || 0;
-    columns = columns.slice(numFixedColumns, columns.get('length')) || [];
-    this.prepareTableColumns(columns);
-    return columns;
+    if(numFixedColumns > 0){
+      columns = columns.slice(numFixedColumns, columns.get('length')) || [];
+    }
+    return this.prepareTableColumns(columns);
   }),
 
   prepareTableColumns: function(columns) {

@@ -1,3 +1,11 @@
-<h2 id='title'>Welcome to Ember.js</h2>
+<h2 id='title'>Ember Table - Ember CLI style</h2>
 
 {{outlet}}
+
+{{ember-table
+  height=400
+  hasFooter=false
+  enableContentSelection=true
+  columnsBinding="columns"
+  contentBinding="testContent"
+}}

@@ -1,4 +1,4 @@
 import Ember from 'ember';
-import EmberTableComponent from 'ember-cli-ember-table/components/ember-table';
+import EmberTable from 'ember-cli-ember-table/components/ember-table';
 
-export default EmberTableComponent;
+export default EmberTable;
