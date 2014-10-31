@@ -2,6 +2,7 @@ import Ember from 'ember';
 import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 import ResizeHandlerMixin from '../mixins/resize-handler-mixin';
 import RowArrayController from '../controllers/row';
+import Row from '../row';
 
 var EmberTableComponent;
 
@@ -181,7 +182,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       target: this,
       parentController: this,
       container: this.get('container'),
-      itemController: 'row',
+      itemController: Row,
       content: this.get('content')
     });
   }).property('content'),
