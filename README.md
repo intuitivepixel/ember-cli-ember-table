@@ -33,12 +33,13 @@ You will also need to setup your controller to provide content for the ember-tab
 
 Example controller
 
-    ...
+    import ColumnDefinition from '../column-definition';
+
     export default Ember.Controller.extend({
       numRows: 100,
       columns: Ember.computed(function() {
         var closeColumn, dateColumn, highColumn, lowColumn, openColumn;
-        dateColumn = Ember.Table.ColumnDefinition.create({
+        dateColumn = ColumnDefinition.create({
           columnWidth: 150,
           textAlign: 'text-align-left',
           headerCellName: 'Date',
@@ -46,28 +47,28 @@ Example controller
             return row['date'].toDateString();
           }
         });
-        openColumn = Ember.Table.ColumnDefinition.create({
+        openColumn = ColumnDefinition.create({
           columnWidth: 100,
           headerCellName: 'Open',
           getCellContent: function(row) {
             return row['open'].toFixed(2);
           }
         });
-        highColumn = Ember.Table.ColumnDefinition.create({
+        highColumn = ColumnDefinition.create({
           columnWidth: 100,
           headerCellName: 'High',
           getCellContent: function(row) {
             return row['high'].toFixed(2);
           }
         });
-        lowColumn = Ember.Table.ColumnDefinition.create({
+        lowColumn = ColumnDefinition.create({
           columnWidth: 100,
           headerCellName: 'Low',
           getCellContent: function(row) {
             return row['low'].toFixed(2);
           }
         });
-        closeColumn = Ember.Table.ColumnDefinition.create({
+        closeColumn = ColumnDefinition.create({
           columnWidth: 100,
           headerCellName: 'Close',
           getCellContent: function(row) {
