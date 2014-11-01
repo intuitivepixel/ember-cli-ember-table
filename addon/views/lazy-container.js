@@ -52,13 +52,11 @@ LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
     } else if (numViewsToInsert > 0) {
 
       /* if oldNumViews < newNumViews we need to add more views */
-      viewsToAdd = (function() {
-        _results = [];
-        for (var _i = 0; 0 <= numViewsToInsert ? _i < numViewsToInsert : _i > numViewsToInsert; 0 <= numViewsToInsert ? _i++ : _i--){ _results.push(_i); }
-        return _results;
-      }).apply(this).map(function() {
-        return view.createChildView(itemViewClass);
-      });
+      viewsToAdd = [];
+      for (var i = numViewsToInsert - 1; i >= 0; i--) {
+        viewsToAdd.push(view.createChildView(itemViewClass));
+      };
+
       return this.pushObjects(viewsToAdd);
     }
   }, 'numChildViews', 'itemViewClass'),
