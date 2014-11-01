@@ -1,11 +1,11 @@
 `import Ember from 'ember';`
 `import StyleBindingsMixin from '../mixins/style-bindings-mixin';`
 
- ###*
- * Multi Item View Collection View
- * @class
- * @alias Ember.Table.MultiItemViewCollectionView
- ###
+###*
+* Multi Item View Collection View
+* @class
+* @alias Ember.Table.MultiItemViewCollectionView
+###
 MultiItemViewCollectionView = Ember.CollectionView.extend StyleBindingsMixin,
   styleBindings:  'width'
   itemViewClassField: null
