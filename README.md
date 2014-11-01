@@ -40,7 +40,7 @@ Example controller
 
       columns: function() {
         var dateColumn, openColumn, highColumn, lowColumn, closeColumn;
-        dateColumn = Ember.Table.ColumnDefinition.create({
+        dateColumn = ColumnDefinition.create({
           columnWidth: 150,
           textAlign: 'text-align-left',
           headerCellName: 'Date',
@@ -48,28 +48,28 @@ Example controller
             return row.get('date').toDateString();
           }
         });
-        openColumn = Ember.Table.ColumnDefinition.create({
+        openColumn = ColumnDefinition.create({
           columnWidth: 100,
           headerCellName: 'Open',
           getCellContent: function(row) {
             return row.get('open').toFixed(2);
           }
         });
-        highColumn = Ember.Table.ColumnDefinition.create({
+        highColumn = ColumnDefinition.create({
           columnWidth: 100,
           headerCellName: 'High',
           getCellContent: function(row) {
             return row.get('high').toFixed(2);
           }
         });
-        lowColumn = Ember.Table.ColumnDefinition.create({
+        lowColumn = ColumnDefinition.create({
           columnWidth: 100,
           headerCellName: 'Low',
           getCellContent: function(row) {
             return row.get('low').toFixed(2);
           }
         });
-        closeColumn = Ember.Table.ColumnDefinition.create({
+        closeColumn = ColumnDefinition.create({
           columnWidth: 100,
           headerCellName: 'Close',
           getCellContent: function(row) {

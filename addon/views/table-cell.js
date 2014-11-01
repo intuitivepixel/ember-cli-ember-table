@@ -49,7 +49,7 @@ TableCell = Ember.View.extend(StyleBindingsMixin, {
       return this.addObserver("row." + contentPath, this, this.contentDidChange);
     }
   }).observesBefore('column.contentPath'),
-  cellContent: Ember.computed(function(key, value) {
+  cellContent: function(key, value) {
     var column, row;
     row = this.get('row');
     column = this.get('column');
@@ -62,7 +62,7 @@ TableCell = Ember.View.extend(StyleBindingsMixin, {
       column.setCellContent(row, value);
     }
     return value;
-  }).property('row.isLoaded', 'column')
+  }.property('row.isLoaded', 'column')
 });
 
 export default TableCell;
