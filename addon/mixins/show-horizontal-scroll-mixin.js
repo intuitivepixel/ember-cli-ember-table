@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+/* global $ */
+
 /* HACK: We want the horizontal scroll to show on mouse enter and leave. */
 var ShowHorizontalScrollMixin;
 

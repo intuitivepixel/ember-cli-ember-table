@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import LazyItemView from '../views/lazy-item';
 
+/* jshint unused:false */
+
 var TableRow;
 
 TableRow = LazyItemView.extend({

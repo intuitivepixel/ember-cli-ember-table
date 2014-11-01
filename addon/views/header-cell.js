@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
+/* global jQuery, $ */
+
 var HeaderCell;
 
 HeaderCell = Ember.View.extend(StyleBindingsMixin, {

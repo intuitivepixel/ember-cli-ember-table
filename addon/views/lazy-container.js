@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
+/* jshint unused:false */
+
 var LazyContainerView;
 
 LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
@@ -55,7 +57,7 @@ LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
       viewsToAdd = [];
       for (var i = numViewsToInsert - 1; i >= 0; i--) {
         viewsToAdd.push(view.createChildView(itemViewClass));
-      };
+      }
 
       return this.pushObjects(viewsToAdd);
     }

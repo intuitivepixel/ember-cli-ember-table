@@ -4,6 +4,8 @@ import ResizeHandlerMixin from '../mixins/resize-handler-mixin';
 import RowArrayController from '../controllers/row';
 import Row from '../row';
 
+/* global $ */
+
 var EmberTableComponent;
 
 EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {

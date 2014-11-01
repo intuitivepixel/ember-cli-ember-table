@@ -1,6 +1,10 @@
 import Ember from 'ember';
 import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
+/* global jQuery */
+
+/* jshint unused:false */
+
 /*
 We hacked this. There is an inconsistency at the level in which we are
 handling scroll event...

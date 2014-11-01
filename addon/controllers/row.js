@@ -1,4 +1,7 @@
 import Ember from 'ember';
+
+/* jshint unused:false */
+
 var RowArrayController;
 
 RowArrayController = Ember.ArrayController.extend({

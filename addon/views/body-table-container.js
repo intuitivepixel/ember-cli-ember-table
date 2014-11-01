@@ -25,7 +25,7 @@ BodyTableContainer = TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHand
   /* `event` here is a jQuery event */
   onMouseWheel: function(event, delta, deltaX, deltaY) {
     var scrollLeft;
-    if (!(Math.abs(deltaX) > Math.abs(deltaY))) {
+    if ((Math.abs(deltaX) > Math.abs(deltaY)) === false) {
       return;
     }
     scrollLeft = this.$('.ember-table-right-table-block').scrollLeft() + deltaX;
@@ -34,7 +34,7 @@ BodyTableContainer = TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHand
   },
   onTouchMove: function(event, deltaX, deltaY) {
     var scrollLeft;
-    if (!(Math.abs(deltaX) > Math.abs(deltaY))) {
+    if ((Math.abs(deltaX) > Math.abs(deltaY)) === false) {
       return;
     }
     scrollLeft = this.$('.ember-table-right-table-block').scrollLeft() + deltaX;

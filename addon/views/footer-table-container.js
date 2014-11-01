@@ -4,6 +4,8 @@ import TouchMoveHandlerMixin from '../mixins/touch-move-handler-mixin';
 import ShowHorizontalScrollMixin from '../mixins/show-horizontal-scroll-mixin';
 import TableContainer from '../views/table-container';
 
+/* jshint unused:false */
+
 var FooterTableContainer;
 
 FooterTableContainer = TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHandlerMixin, ShowHorizontalScrollMixin, {
