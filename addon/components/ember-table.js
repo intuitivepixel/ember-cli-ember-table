@@ -202,10 +202,9 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       return Ember.A();
     }
     numFixedColumns = this.get('numFixedColumns') || 0;
-    if(numFixedColumns > 0){
-      columns = columns.slice(0, numFixedColumns) || [];
-    }
-    return this.prepareTableColumns(columns);
+    columns = columns.slice(0, numFixedColumns) || [];
+    this.prepareTableColumns(columns);
+    return columns;
   }).property('columns.@each', 'numFixedColumns'),
   tableColumns: Ember.computed(function() {
     var columns, numFixedColumns;
