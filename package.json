@@ -10,7 +10,7 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "https://github.com/stefanpenner/ember-cli",
+  "repository": "https://github.com/intuitivepixel/ember-cli-ember-table",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -35,8 +35,7 @@
     "broccoli-ember-hbs-template-compiler": "^1.6.2"
   },
   "keywords": [
-    "ember-addon",
-    "ember-table"
+    "ember-addon"
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"

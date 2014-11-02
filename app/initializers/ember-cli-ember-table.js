@@ -4,6 +4,11 @@ export default {
   name: 'ember-cli-ember-table',
   initialize: function(container, app) {
 
+    var VERSION = '0.2.2';
+    if (Ember.libraries !== null) {
+      Ember.libraries.register('Ember Table', VERSION);
+    }
+
     /*
     jQuery.browser shim that makes HT working with jQuery 1.8+
      */

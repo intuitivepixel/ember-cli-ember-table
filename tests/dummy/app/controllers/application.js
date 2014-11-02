@@ -11,7 +11,7 @@ export default Ember.ArrayController.extend({
       textAlign: 'text-align-left',
       headerCellName: 'Date',
       getCellContent: function(row) {
-        return row;
+        return row.get('content.date');
       }
     });
     openColumn = ColumnDefinition.create({
@@ -20,7 +20,7 @@ export default Ember.ArrayController.extend({
       textAlign: 'text-align-left',
       headerCellName: 'Open',
       getCellContent: function(row) {
-        return row;
+        return row.get('content.open');
       }
     });
     return [dateColumn, openColumn];
@@ -35,14 +35,14 @@ export default Ember.ArrayController.extend({
       var obj;
       date = new Date();
       date.setDate(date.getDate() + i);
-      obj = {
+      obj = Ember.Object.create({
         date: date,
         open: Math.random() * 100 - 50,
         high: Math.random() * 100 - 50,
         low: Math.random() * 100 - 50,
         close: Math.random() * 100 - 50,
         volume: Math.random() * 1000000
-      };
+      });
       rows.push(obj);
     }
     return rows;

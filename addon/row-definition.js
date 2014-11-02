@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-var Row = Ember.ObjectProxy.extend({
+var RowDefinition = Ember.ObjectProxy.extend({
   content: null,
   isShowing: true,
   isHovered: false,
@@ -12,4 +12,4 @@ var Row = Ember.ObjectProxy.extend({
   }).property('parentController._selection.[]')
 });
 
-export default Row;
+export default RowDefinition;

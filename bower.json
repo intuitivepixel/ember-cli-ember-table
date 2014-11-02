@@ -11,15 +11,16 @@
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.2",
     "ember-qunit": "0.1.8",
     "ember-qunit-notifications": "0.0.4",
-    "qunit": "~1.15.0",
-    "jquery-ui": "1.10.1",
-    "jquery-mousewheel": "~3.1.4",
-    "antiscroll": "fa3f81d3c07b647a63036da1de859fcaf1355993"
+    "qunit": "~1.15.0"
   },
   "resolutions": {
     "handlebars": "2.0.0",
     "jquery": "^1.11.1",
     "ember": "canary"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jquery-ui": "1.10.1",
+    "jquery-mousewheel": "~3.1.4",
+    "antiscroll": "fa3f81d3c07b647a63036da1de859fcaf1355993"
+  }
 }
