@@ -12,26 +12,26 @@ var ColumnDefinition = Ember.Object.extend({
   Name of the column, to be displayed in the header.
   TODO(new-api): Change to `columnName`
    */
-  headerCellName: void 0,
+  headerCellName: null,
 
   /*
   Path of the content for this cell. If the row object is a hash of keys
   and values to specify data for each column, `contentPath` corresponds to
   the key.
    */
-  contentPath: void 0,
+  contentPath: null,
 
   /*
   Minimum column width. Affects both manual resizing and automatic resizing
   (in `forceFillColumns` mode).
    */
-  minWidth: void 0,
+  minWidth: null,
 
   /*
   Maximum column width. Affects both manual resizing and automatic resizing
   (in `forceFillColumns` mode).
    */
-  maxWidth: void 0,
+  maxWidth: null,
 
   /*
   Default column width. Specifies the initial width of the column; if the

@@ -163,6 +163,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
     addColumn: Ember.K,
     sortByColumn: Ember.K
   },
+
   height: Ember.computed.alias('_tablesContainerHeight'),
 
   /*
@@ -171,6 +172,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
    */
   tableRowView: 'table-row',
   tableRowViewClass: Ember.computed.alias('tableRowView'),
+
   onColumnSort: function(column, newIndex) {
     var columns;
     columns = this.get('tableColumns');
@@ -197,6 +199,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       return Ember.A();
     }
   }).property(),
+
   fixedColumns: Ember.computed(function() {
     var columns, numFixedColumns;
     columns = this.get('columns');
@@ -208,6 +211,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
     this.prepareTableColumns(columns);
     return columns;
   }).property('columns.@each', 'numFixedColumns'),
+
   tableColumns: Ember.computed(function() {
     var columns, numFixedColumns;
     columns = this.get('columns');
@@ -219,6 +223,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
     this.prepareTableColumns(columns);
     return columns;
   }).property('columns.@each', 'numFixedColumns'),
+
   prepareTableColumns: function(columns) {
     return columns.setEach('controller', this);
   },
@@ -233,6 +238,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
     this.set('_tableScrollTop', 0);
     return this.elementSizeDidChange();
   },
+
   onResizeEnd: function() {
 
     /*
@@ -244,6 +250,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
      */
     return Ember.run(this, this.elementSizeDidChange);
   },
+
   elementSizeDidChange: function() {
     if ((this.get('_state') || this.get('state')) !== 'inDOM') {
       return;
@@ -257,6 +264,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
      */
     return Ember.run.next(this, this.updateLayout);
   },
+
   updateLayout: function() {
 
     /* updating antiscroll */
@@ -268,6 +276,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       return this.doForceFillColumns();
     }
   },
+
   doForceFillColumns: function() {
 
     /* Expand the columns if there's extra space */
@@ -286,6 +295,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       return column.set('columnWidth', columnWidth);
     });
   },
+
   onBodyContentLengthDidChange: Ember.observer(function() {
     return Ember.run.next(this, function() {
       return Ember.run.once(this, this.updateLayout);
@@ -302,6 +312,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
   _width: null,
   _height: null,
   _contentHeaderHeight: null,
+
   _hasVerticalScrollbar: Ember.computed(function() {
     var contentHeight, height;
     height = this.get('_height');
@@ -312,6 +323,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       return false;
     }
   }).property('_height', '_tableContentHeight', '_headerHeight', '_footerHeight'),
+
   _hasHorizontalScrollbar: Ember.computed(function() {
     var contentWidth, tableWidth;
     contentWidth = this.get('_tableColumnsWidth');
@@ -356,6 +368,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       return availableWidth;
     }
   }).property('tableColumns.@each.columnWidth', '_width', '_fixedColumnsWidth'),
+
   _rowWidth: Ember.computed(function() {
     var columnsWidth, nonFixedTableWidth;
     columnsWidth = this.get('_tableColumnsWidth');
@@ -386,6 +399,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       return 0;
     }
   }).property('footerHeight', 'hasFooter'),
+
   _bodyHeight: Ember.computed(function() {
     var bodyHeight;
     bodyHeight = this.get('_tablesContainerHeight');
@@ -397,22 +411,29 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
     }
     return bodyHeight;
   }).property('_tablesContainerHeight', '_hasHorizontalScrollbar', '_headerHeight', 'footerHeight', 'hasHeader', 'hasFooter'),
+
   _tableBlockWidth: Ember.computed(function() {
     return this.get('_width') - this.get('_fixedColumnsWidth');
   }).property('_width', '_fixedColumnsWidth'),
+
   _fixedBlockWidthBinding: '_fixedColumnsWidth',
+
   _tableContentHeight: Ember.computed(function() {
     return this.get('rowHeight') * this.get('bodyContent.length');
   }).property('rowHeight', 'bodyContent.length'),
+
   _tableContainerWidth: Ember.computed(function() {
     return this.get('_width');
   }).property('_width'),
+
   _scrollContainerWidth: Ember.computed(function() {
     return this.get('_width') - this.get('_fixedColumnsWidth');
   }).property('_width', '_fixedColumnsWidth'),
+
   _numItemsShowing: Ember.computed(function() {
     return Math.floor(this.get('_bodyHeight') / this.get('rowHeight'));
   }).property('_bodyHeight', 'rowHeight'),
+
   _startIndex: Ember.computed(function() {
     var index, numContent, numViews, rowHeight, scrollTop;
     numContent = this.get('bodyContent.length');
@@ -431,6 +452,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       return index;
     }
   }).property('bodyContent.length', '_numItemsShowing', 'rowHeight', '_tableScrollTop'),
+
   _getTotalWidth: function(columns, columnWidthPath) {
     var widths;
     if (columnWidthPath == null) {
@@ -454,6 +476,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
   isSelected: function(row) {
     return this.get('_selection').contains(row);
   },
+
   setSelected: function(row, val) {
     this.persistSelection();
     if (val) {
@@ -475,9 +498,11 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
   rangeSelection: Ember.computed(function() {
     return new Ember.Set();
   }),
+
   _selection: Ember.computed(function() {
     return this.get('persistedSelection').copy().addEach(this.get('rangeSelection'));
   }).property('persistedSelection.[]', 'rangeSelection.[]'),
+
   click: function(event) {
     var curIndex, lastIndex, maxIndex, minIndex, row;
     row = this.getRowForEvent(event);
@@ -514,6 +539,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       }
     }
   },
+
   findRow: function(content) {
     var row, _i, _len, _ref;
     _ref = this.get('bodyContent');
@@ -524,14 +550,17 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       }
     }
   },
+
   rowIndex: function(row) {
     var _ref;
     return (_ref = this.get('bodyContent')) != null ? _ref.indexOf(row) : void 0;
   },
+
   persistSelection: function() {
     this.get('persistedSelection').addEach(this.get('rangeSelection'));
     return this.get('rangeSelection').clear();
   },
+
   getRowForEvent: function(event) {
     var $rowView, view;
     $rowView = $(event.target).parents('.ember-table-table-row');

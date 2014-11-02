@@ -13,16 +13,20 @@ LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
   rowHeight: null,
   scrollTop: null,
   startIndex: null,
+
   init: function() {
     this._super();
     return this.onNumChildViewsDidChange();
   },
+
   height: Ember.computed(function() {
     return this.get('content.length') * this.get('rowHeight');
   }).property('content.length', 'rowHeight'),
+
   numChildViews: Ember.computed(function() {
     return this.get('numItemsShowing') + 2;
   }).property('numItemsShowing'),
+
   onNumChildViewsDidChange: Ember.observer(function() {
     var itemViewClass, newNumViews, numViewsToInsert, oldNumViews, view, viewsToAdd, viewsToRemove, _i, _results;
     view = this;

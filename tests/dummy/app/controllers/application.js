@@ -11,16 +11,16 @@ export default Ember.ArrayController.extend({
       textAlign: 'text-align-left',
       headerCellName: 'Date',
       getCellContent: function(row) {
-        return row.get('content.date');
+        return row;
       }
     });
     openColumn = ColumnDefinition.create({
       columnWidth: 200,
       isSortable: true,
       textAlign: 'text-align-left',
-      headerCellName: 'ID',
+      headerCellName: 'Open',
       getCellContent: function(row) {
-        return row.get('content.open');
+        return row;
       }
     });
     return [dateColumn, openColumn];
