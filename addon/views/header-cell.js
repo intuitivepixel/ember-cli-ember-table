@@ -15,11 +15,11 @@ HeaderCell = Ember.View.extend(StyleBindingsMixin, {
 
   /*
   TODO: Doc
-  templateName:       'header-cell'
-  classNames:         ['ember-table-cell', 'ember-table-header-cell']
-  classNameBindings:  ['column.isSortable:sortable', 'column.textAlign']
-  styleBindings:      ['width', 'height']
-   */
+  */
+  templateName:       'header-cell',
+  classNames:         ['ember-table-cell', 'ember-table-header-cell'],
+  classNameBindings:  ['column.isSortable:sortable', 'column.textAlign'],
+  styleBindings:      ['width', 'height'],
 
   /*
    * ---------------------------------------------------------------------------

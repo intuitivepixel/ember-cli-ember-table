@@ -11,7 +11,7 @@ export default Ember.ArrayController.extend({
       textAlign: 'text-align-left',
       headerCellName: 'Date',
       getCellContent: function(row) {
-        return row.get('content.date');
+        return row.get('date');
       }
     });
     openColumn = ColumnDefinition.create({
@@ -20,7 +20,7 @@ export default Ember.ArrayController.extend({
       textAlign: 'text-align-left',
       headerCellName: 'Open',
       getCellContent: function(row) {
-        return row.get('content.open');
+        return row.get('open');
       }
     });
     return [dateColumn, openColumn];

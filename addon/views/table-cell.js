@@ -13,11 +13,11 @@ TableCell = Ember.View.extend(StyleBindingsMixin, {
 
   /*
   TODO: Doc
-  templateName:       'table-cell'
-  classNames:         ['ember-table-cell']
-  classNameBindings:  'column.textAlign'
-  styleBindings:      'width'
-   */
+  */
+  templateName:       'table-cell',
+  classNames:         ['ember-table-cell'],
+  classNameBindings:  'column.textAlign',
+  styleBindings:      'width',
 
   /*
    * ---------------------------------------------------------------------------
