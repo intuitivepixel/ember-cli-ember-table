@@ -2,21 +2,18 @@
 
 # ember-cli-ember-table
 
-## Installation
+## Test in dummy app locally
 
 * `git clone` this repository
 * `cd ember-cli-ember-table`
 * `npm install`
 * `bower install`
-
-## Test in dummy app locally
-
 * `ember server`
 * Visit http://localhost:4200
 
-## Usage (in consuming project)
+## Usage (in consuming ember-cli project)
 
-* `npm install --save [path-to-repo]/ember-cli-ember-table`
+* `npm install ember-cli-ember-table --save`
 * `ember g ember-cli-ember-table`
 
 At this point you can use the component in the templates of your consuming app.
