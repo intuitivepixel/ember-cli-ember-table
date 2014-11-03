@@ -500,11 +500,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
   }),
 
   _selection: Ember.computed(function() {
-
-    var copy = this.get('persistedSelection').toArray();
-    copy.addObjects(this.get('rangeSelection'));
-    return copy;
-
+    return this.get('persistedSelection').toArray().copy().addObjects(this.get('rangeSelection'));
   }).property('persistedSelection.[]', 'rangeSelection.[]'),
 
   click: function(event) {
