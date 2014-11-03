@@ -480,9 +480,9 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
   setSelected: function(row, val) {
     this.persistSelection();
     if (val) {
-      return this.get('persistedSelection').add(row);
+      return this.get('persistedSelection').addObject(row);
     } else {
-      return this.get('persistedSelection').remove(row);
+      return this.get('persistedSelection').removeObject(row);
     }
   },
 
@@ -491,16 +491,20 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
   range selection (shift-click)
    */
   persistedSelection: Ember.computed(function() {
-    return new Ember.Set();
+    return Ember.ArrayProxy.createWithMixins(Ember.MutableArray, {content:[]});
   }),
 
   /* rows that are part of the currently editable range selection */
   rangeSelection: Ember.computed(function() {
-    return new Ember.Set();
+    return Ember.ArrayProxy.createWithMixins(Ember.MutableArray, {content:[]});
   }),
 
   _selection: Ember.computed(function() {
-    return this.get('persistedSelection').copy().addEach(this.get('rangeSelection'));
+
+    var copy = this.get('persistedSelection').toArray();
+    copy.addObjects(this.get('rangeSelection'));
+    return copy;
+
   }).property('persistedSelection.[]', 'rangeSelection.[]'),
 
   click: function(event) {
@@ -514,7 +518,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
     }
     if (this.get('selectionMode') === 'single') {
       this.get('persistedSelection').clear();
-      return this.get('persistedSelection').add(row);
+      return this.get('persistedSelection').addObject(row);
     } else {
       if (event.shiftKey) {
         this.get('rangeSelection').clear();
@@ -531,9 +535,9 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
           this.persistSelection();
         }
         if (this.get('persistedSelection').contains(row)) {
-          this.get('persistedSelection').remove(row);
+          this.get('persistedSelection').removeObject(row);
         } else {
-          this.get('persistedSelection').add(row);
+          this.get('persistedSelection').addObject(row);
         }
         return this.set('lastSelected', row);
       }
@@ -557,7 +561,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
   },
 
   persistSelection: function() {
-    this.get('persistedSelection').addEach(this.get('rangeSelection'));
+    this.get('persistedSelection').addObjects(this.get('rangeSelection'));
     return this.get('rangeSelection').clear();
   },
 
