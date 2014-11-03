@@ -1,4 +1,4 @@
-**NOTE**: This is still a work in progress.
+**NOTE**: This addon is a port from [http://addepar.github.io/ember-table](http://addepar.github.io/ember-table) into vanilla JS and ES6 style modules. The port was made out of the master branch @ea0983f. The addon is still a work in progress.
 
 # ember-cli-ember-table
 
@@ -94,6 +94,6 @@ Example controller
     ...
 
 
-For more information on how to setup `ember-table`, please visit [http://addepar.github.io/ember-table] (http://addepar.github.io/ember-table).
+For more information on how to setup `ember-table`, please visit [http://addepar.github.io/ember-table](http://addepar.github.io/ember-table).
 
 For more information on using `ember-cli`, please visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
