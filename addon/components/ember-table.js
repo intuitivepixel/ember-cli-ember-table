@@ -121,12 +121,12 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
     if (arguments.length > 1 && val) {
       if (this.get('selectionMode') === 'single') {
         this.get('persistedSelection').clear();
-        this.get('persistedSelection').add(this.findRow(val));
+        this.get('persistedSelection').addObject(this.findRow(val));
       } else {
         this.get('persistedSelection').clear();
         for (_i = 0, _len = val.length; _i < _len; _i++) {
           content = val[_i];
-          this.get('persistedSelection').add(this.findRow(content));
+          this.get('persistedSelection').addObject(this.findRow(content));
         }
       }
       this.get('rangeSelection').clear();
