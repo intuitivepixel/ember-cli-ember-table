@@ -16,6 +16,16 @@ BodyTableContainer = TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHand
   scrollLeft: Ember.computed.alias('controller._tableScrollLeft'),
   scrollElementSelector: '.antiscroll-inner',
 
+  // Workaround to fix #1
+  fixBlankOnLoad: function () {
+    Ember.run.next(this, function() {
+      this.set('scrollTop', 30);
+      Ember.run.next(this, function() {
+        this.set('scrollTop', 0);
+      });
+    });
+  }.on('didInsertElement'),
+
   /* `event` here is a jQuery event */
   onScroll: function(event) {
     this.set('scrollTop', event.target.scrollTop);
