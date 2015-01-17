@@ -25,6 +25,18 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
   styleBindings: ['height'],
 
   /*
+  Attributes on the element which are bound the component values
+   */
+  attributeBindings: ['tabIndex'],
+
+
+  /*
+    Setting tab index to -1 removes the element from being tab to. This is
+    required to allow keyboard navigation.
+   */
+  tabIndex: -1,
+
+  /*
   An array of row objects. Usually a hash where the keys are column names and
   the values are the rows's values. However, could be any object, since each
   column can define a function to return the column value given the row
@@ -514,7 +526,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
     }
     if (this.get('selectionMode') === 'single') {
       this.get('persistedSelection').clear();
-      return this.get('persistedSelection').addObject(row);
+      this.get('persistedSelection').addObject(row);
     } else {
       if (event.shiftKey) {
         this.get('rangeSelection').clear();
@@ -522,7 +534,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
         curIndex = this.rowIndex(this.getRowForEvent(event));
         minIndex = Math.min(lastIndex, curIndex);
         maxIndex = Math.max(lastIndex, curIndex);
-        return this.get('rangeSelection').addObjects(this.get('bodyContent').slice(minIndex, maxIndex + 1));
+        this.get('rangeSelection').addObjects(this.get('bodyContent').slice(minIndex, maxIndex + 1));
       } else {
         if (!event.ctrlKey && !event.metaKey) {
           this.get('persistedSelection').clear();
@@ -535,9 +547,76 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
         } else {
           this.get('persistedSelection').addObject(row);
         }
-        return this.set('lastSelected', row);
+        this.set('lastSelected', row);
       }
     }
+  },
+
+
+  keyDown: function (e) {
+    if (e.keyCode === 38) {
+      // arrow up
+      e.preventDefault();
+      this.selectWithArrow('up', e.shiftKey);
+    } else if (e.keyCode === 40) {
+      // arrow down
+      e.preventDefault();
+      this.selectWithArrow('down', e.shiftKey);
+    } else if (e.keyCode === 65) {
+      // 65 is a
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        this.selectAll();
+      }
+    }
+  },
+
+  selectWithArrow: function (direction, aggregate) {
+    var rowIndex, futureRowIndex, futureSelection;
+    if (this.get('selectionMode') === 'none') {
+      return;
+    }
+
+    // Get the appropriate row index
+    if (this.get('selectionMode') === 'single') {
+      rowIndex = this.rowIndex(this.get('persistedSelection.lastObject'));
+    } else {
+      rowIndex = this.rowIndex(this.get('lastSelected'));
+      console.log(rowIndex);
+    }
+
+    // Calculate new index, defaulting to current index for edge values
+    if (direction === 'up' && rowIndex !== 0) {
+      futureRowIndex = rowIndex - 1;
+    } else if (direction === 'down' && rowIndex !== this.get('bodyContent.length') - 1) {
+      futureRowIndex = rowIndex + 1;
+    } else {
+      futureRowIndex = rowIndex;
+    }
+
+    // Clear current selection
+    this.get('persistedSelection').clear();
+    this.get('rangeSelection').clear();
+
+    // Get new row and persist it. Set lastSelected for book-keeping
+    futureSelection = this.get('bodyContent').objectAt(futureRowIndex);
+    this.get('persistedSelection').addObject(futureSelection);
+    this.set('lastSelected', futureSelection);
+  },
+
+  selectAll: function() {
+    if (this.get('selectionMode') !== 'multiple') {
+      return;
+    }
+
+    // Clear current selection
+    this.get('persistedSelection').clear();
+    this.get('rangeSelection').clear();
+    this.set('lastSelected', null);
+
+    // Set new selection
+    this.get('rangeSelection').addObjects(this.get('bodyContent'));
+    this.set('lastSelected', this.get('bodyContent.lastObject'));
   },
 
   findRow: function(content) {
