@@ -1,14 +1,14 @@
 import Ember from 'ember';
 import StyleBindingsMixin from '../mixins/style-bindings-mixin';
-import ResizeHandlerMixin from '../mixins/resize-handler-mixin';
 import RowArrayController from '../controllers/row';
 import RowDefinition from '../row-definition';
+import { addResizeListener } from '../resize-detection';
 
 /* global $ */
 
 var EmberTableComponent;
 
-EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMixin, {
+EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
   classNames: ['ember-table-tables-container'],
   classNameBindings: ['enableContentSelection:ember-table-content-selectable'],
 
@@ -251,17 +251,9 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
     return this.elementSizeDidChange();
   },
 
-  onResizeEnd: function() {
-
-    /*
-    we need to put this on the run loop, because resize event came from
-    window. Otherwise, we get this warning when used in tests. You have
-    turned on testing mode, which disabled the run-loop's autorun. You
-    will need to wrap any code with asynchronous side-effects in an
-    Ember.run
-     */
-    return Ember.run(this, this.elementSizeDidChange);
-  },
+  addResizeListener: function() {
+    addResizeListener(this.get('element'), Ember.run.bind(this, this.elementSizeDidChange));
+  }.on("didInsertElement"),
 
   elementSizeDidChange: function() {
     if ((this.get('_state') || this.get('state')) !== 'inDOM') {
@@ -582,7 +574,6 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, ResizeHandlerMi
       rowIndex = this.rowIndex(this.get('persistedSelection.lastObject'));
     } else {
       rowIndex = this.rowIndex(this.get('lastSelected'));
-      console.log(rowIndex);
     }
 
     // Calculate new index, defaulting to current index for edge values
