@@ -1,5 +1,11 @@
 'use strict';
 
 module.exports = function(/* environment, appConfig */) {
-  return { };
+  return { 
+    EmberENV: {
+      FEATURES: {
+        'ember-htmlbars': true
+      }
+    }
+  };
 };
