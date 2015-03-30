@@ -19,15 +19,15 @@ LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
     return this.onNumChildViewsDidChange();
   },
 
-  height: Ember.computed(function() {
+  height: Ember.computed('content.length', 'rowHeight', function() {
     return this.get('content.length') * this.get('rowHeight');
-  }).property('content.length', 'rowHeight'),
+  }),
 
   numChildViews: Ember.computed(function() {
     return this.get('numItemsShowing') + 2;
   }).property('numItemsShowing'),
 
-  onNumChildViewsDidChange: Ember.observer(function() {
+  onNumChildViewsDidChange: Ember.observer('numChildViews', 'itemViewClass', function() {
     var itemViewClass, newNumViews, numViewsToInsert, oldNumViews, view, viewsToAdd, viewsToRemove, _i, _results;
     view = this;
 
@@ -65,18 +65,16 @@ LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
 
       return this.pushObjects(viewsToAdd);
     }
-  }, 'numChildViews', 'itemViewClass'),
+  }),
 
   /*
   TODO(Peter): Consider making this a computed... binding logic will go
   into the LazyItemMixin
    */
-  viewportDidChange: Ember.observer(function() {
-    var clength, content, numShownViews, startIndex;
-    content = this.get('content') || [];
-    clength = content.get('length');
-    numShownViews = Math.min(this.get('length'), clength);
-    startIndex = this.get('startIndex');
+  viewportDidChange: Ember.observer('content.length', 'length', 'startIndex', function() {
+    var content = this.get('content') || [];
+    var clength = content.get('length');
+    var startIndex = this.get('startIndex');
 
     /*
     this is a necessary check otherwise we are trying to access an object
@@ -88,7 +86,13 @@ LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
     if (startIndex < 0) {
       startIndex = 0;
     }
-    return this.forEach(function(childView, i) {
+
+    var childViews = this.filter(function(view){
+      return !view.isAttrNode;
+    });
+    var numShownViews = Math.min(childViews.length, clength);
+
+    return childViews.forEach(function(childView, i) {
 
       /*
       for all views that we are not using... just remove content
@@ -96,21 +100,21 @@ LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
        */
       var item, itemIndex;
       if (i >= numShownViews) {
-        childView = this.objectAt(i);
+        childView = childViews.objectAt(i);
         childView.set('content', null);
         return;
       }
       itemIndex = startIndex + i;
-      childView = this.objectAt(itemIndex % numShownViews);
+      childView = childViews.objectAt(itemIndex % numShownViews);
       item = content.objectAt(itemIndex);
-      if (!childView.isAttrNode && item !== childView.get('content')) {
+      if (item !== childView.get('content')) {
         childView.teardownContent();
         childView.set('itemIndex', itemIndex);
         childView.set('content', item);
         return childView.prepareContent();
       }
     }, this);
-  }, 'content.length', 'length', 'startIndex')
+  })
 });
 
 export default LazyContainerView;

@@ -3,22 +3,22 @@
     <div class="ember-table-table-scrollable-wrapper">
       {{#if controller.numFixedColumns}}
         {{view 'lazy-table-block' classNames="ember-table-left-table-block"
-          contentBinding="controller.bodyContent"
-          columnsBinding="controller.fixedColumns"
-          widthBinding="controller._fixedBlockWidth"
-          numItemsShowingBinding="controller._numItemsShowing"
-          scrollTopBinding="controller._scrollTop"
-          startIndexBinding="controller._startIndex"
+          content=controller.bodyContent
+          columns=controller.fixedColumns
+          width=controller._fixedBlockWidth
+          numItemsShowing=controller._numItemsShowing
+          scrollTop=controller._scrollTop
+          startIndex=controller._startIndex
         }}
       {{/if}}
       {{view 'lazy-table-block' classNames="ember-table-right-table-block"
-        contentBinding="controller.bodyContent"
-        columnsBinding="controller.tableColumns"
-        scrollLeftBinding="controller._tableScrollLeft"
-        widthBinding="controller._tableBlockWidth"
-        numItemsShowingBinding="controller._numItemsShowing"
-        scrollTopBinding="controller._scrollTop"
-        startIndexBinding="controller._startIndex"
+        content=controller.bodyContent
+        columns=controller.tableColumns
+        scrollLeft=controller._tableScrollLeft
+        width=controller._tableBlockWidth
+        numItemsShowing=controller._numItemsShowing
+        scrollTop=controller._scrollTop
+        startIndex=controller._startIndex
       }}
     </div>
   </div>

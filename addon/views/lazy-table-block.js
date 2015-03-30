@@ -12,9 +12,9 @@ LazyTableBlock = LazyContainerView.extend({
   content: null,
   scrollLeft: null,
   scrollTop: null,
-  onScrollLeftDidChange: Ember.observer(function() {
+  onScrollLeftDidChange: Ember.observer('scrollLeft', function() {
     return this.$().scrollLeft(this.get('scrollLeft'));
-  }, 'scrollLeft')
+  })
 });
 
 export default LazyTableBlock;
