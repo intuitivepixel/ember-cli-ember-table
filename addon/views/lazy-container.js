@@ -103,7 +103,7 @@ LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
       itemIndex = startIndex + i;
       childView = this.objectAt(itemIndex % numShownViews);
       item = content.objectAt(itemIndex);
-      if (item !== childView.get('content')) {
+      if (!childView.isAttrNode && item !== childView.get('content')) {
         childView.teardownContent();
         childView.set('itemIndex', itemIndex);
         childView.set('content', item);
