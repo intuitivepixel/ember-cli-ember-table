@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Column from 'ember-cli-drg-ember-table/column-definition';
+import Column from 'ember-cli-ember-table/column-definition';
 
 export default Ember.Controller.extend({
   columns: Ember.computed(function(){
