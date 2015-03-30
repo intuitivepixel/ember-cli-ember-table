@@ -12,7 +12,7 @@
   },
   "repository": "https://github.com/intuitivepixel/ember-cli-ember-table",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 0.12.0"
   },
   "author": "",
   "license": "MIT",
