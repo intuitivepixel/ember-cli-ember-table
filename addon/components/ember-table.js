@@ -563,7 +563,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
     }
   },
 
-  selectWithArrow: function (direction, aggregate) {
+  selectWithArrow: function (direction) {
     var rowIndex, futureRowIndex, futureSelection;
     if (this.get('selectionMode') === 'none') {
       return;
