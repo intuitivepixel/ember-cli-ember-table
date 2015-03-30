@@ -2,8 +2,6 @@
 
 **NOTE**: This addon is a fork from [http://addepar.github.io/ember-table](http://addepar.github.io/ember-table) into vanilla JS and ES6 style modules. The fork was made out of the master branch @ea0983f.
 
-This addon is compatible up to Ember 1.11.
-
 ## Test in dummy app locally
 
 * `git clone` this repository
