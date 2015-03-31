@@ -1,9 +1,7 @@
 import Ember from 'ember';
 import LazyContainerView from '../views/lazy-container';
 
-var LazyTableBlock;
-
-LazyTableBlock = LazyContainerView.extend({
+export default LazyContainerView.extend({
   classNames: ['ember-table-table-block'],
   styleBindings: ['width'],
   itemViewClass: Ember.computed.alias('controller.tableRowViewClass'),
@@ -16,5 +14,3 @@ LazyTableBlock = LazyContainerView.extend({
     return this.$().scrollLeft(this.get('scrollLeft'));
   })
 });
-
-export default LazyTableBlock;

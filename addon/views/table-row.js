@@ -2,10 +2,7 @@ import Ember from 'ember';
 import LazyItemView from '../views/lazy-item';
 
 /* jshint unused:false */
-
-var TableRow;
-
-TableRow = LazyItemView.extend({
+export default LazyItemView.extend({
   templateName: 'table-row',
   classNames: 'ember-table-table-row',
   classNameBindings: ['row.isHovered:ember-table-hover', 'row.isSelected:ember-table-selected', 'row.rowStyle', 'isLastRow:ember-table-last-row'],
@@ -39,5 +36,3 @@ TableRow = LazyItemView.extend({
     }
   }
 });
-
-export default TableRow;

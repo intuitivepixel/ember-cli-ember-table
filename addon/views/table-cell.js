@@ -1,9 +1,7 @@
 import Ember from 'ember';
 import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
-var TableCell;
-
-TableCell = Ember.View.extend(StyleBindingsMixin, {
+export default Ember.View.extend(StyleBindingsMixin, {
 
   /*
    * ---------------------------------------------------------------------------
@@ -64,5 +62,3 @@ TableCell = Ember.View.extend(StyleBindingsMixin, {
     return value;
   }.property('row.isLoaded', 'column')
 });
-
-export default TableCell;

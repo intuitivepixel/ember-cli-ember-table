@@ -9,9 +9,7 @@ import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 We hacked this. There is an inconsistency at the level in which we are
 handling scroll event...
  */
-var HeaderRow;
-
-HeaderRow = Ember.View.extend(StyleBindingsMixin, {
+export default Ember.View.extend(StyleBindingsMixin, {
   templateName: 'header-row',
   classNames: ['ember-table-table-row', 'ember-table-header-row'],
   styleBindings: ['width'],
@@ -67,5 +65,3 @@ HeaderRow = Ember.View.extend(StyleBindingsMixin, {
     return this.set('controller._isShowingSortableIndicator', false);
   }
 });
-
-export default HeaderRow;

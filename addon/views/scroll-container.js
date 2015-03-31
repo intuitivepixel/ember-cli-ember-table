@@ -2,9 +2,7 @@ import Ember from 'ember';
 import ScrollHandlerMixin from '../mixins/scroll-handler-mixin';
 import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
-var ScrollContainer;
-
-ScrollContainer = Ember.View.extend(StyleBindingsMixin, ScrollHandlerMixin, {
+export default Ember.View.extend(StyleBindingsMixin, ScrollHandlerMixin, {
   templateName: 'scroll-container',
   classNames: ['ember-table-scroll-container'],
   styleBindings: ['left', 'width', 'height'],
@@ -38,5 +36,3 @@ ScrollContainer = Ember.View.extend(StyleBindingsMixin, ScrollHandlerMixin, {
     return this.$(selector).scrollLeft(this.get('scrollLeft'));
   }, 'scrollLeft', 'scrollElementSelector')
 });
-
-export default ScrollContainer;

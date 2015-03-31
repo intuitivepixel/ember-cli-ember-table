@@ -6,9 +6,7 @@ import TableContainer from '../views/table-container';
 
 /* jshint unused:false */
 
-var FooterTableContainer;
-
-FooterTableContainer = TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHandlerMixin, ShowHorizontalScrollMixin, {
+export default TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHandlerMixin, ShowHorizontalScrollMixin, {
   templateName: 'footer-container',
   classNames: ['ember-table-table-container', 'ember-table-fixed-table-container', 'ember-table-footer-container'],
   styleBindings: 'top',
@@ -39,5 +37,3 @@ FooterTableContainer = TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHa
     return event.preventDefault();
   }
 });
-
-export default FooterTableContainer;

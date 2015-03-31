@@ -2,10 +2,7 @@ import Ember from 'ember';
 import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
 /* jshint unused:false */
-
-var LazyContainerView;
-
-LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
+export default Ember.ContainerView.extend(StyleBindingsMixin, {
   classNames: 'lazy-list-container',
   styleBindings: ['height'],
   content: null,
@@ -116,5 +113,3 @@ LazyContainerView = Ember.ContainerView.extend(StyleBindingsMixin, {
     }, this);
   })
 });
-
-export default LazyContainerView;

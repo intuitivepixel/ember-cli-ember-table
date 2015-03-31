@@ -5,9 +5,7 @@ import ScrollHandlerMixin from '../mixins/scroll-handler-mixin';
 import ShowHorizontalScrollMixin from '../mixins/show-horizontal-scroll-mixin';
 import TableContainer from '../views/table-container';
 
-var BodyTableContainer;
-
-BodyTableContainer = TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHandlerMixin, ScrollHandlerMixin, ShowHorizontalScrollMixin, {
+export default TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHandlerMixin, ScrollHandlerMixin, ShowHorizontalScrollMixin, {
   templateName: 'body-table-container',
   classNames: ['ember-table-table-container', 'ember-table-body-container', 'antiscroll-wrap'],
   height: Ember.computed.alias('controller._bodyHeight'),
@@ -52,5 +50,3 @@ BodyTableContainer = TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHand
     return event.preventDefault();
   }
 });
-
-export default BodyTableContainer;
