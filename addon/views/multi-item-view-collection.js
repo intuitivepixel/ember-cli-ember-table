@@ -1,6 +1,10 @@
 import Ember from 'ember';
+import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
-export default Ember.CollectionView.extend({
+var MultiItemViewCollectionView;
+
+MultiItemViewCollectionView = Ember.CollectionView.extend(StyleBindingsMixin, {
+  styleBindings: 'width',
   itemViewClassField: null,
   createChildView: function(view, attrs) {
     var itemViewClass, itemViewClassField;
@@ -20,3 +24,5 @@ export default Ember.CollectionView.extend({
     return this._super(itemViewClass, attrs);
   }
 });
+
+export default MultiItemViewCollectionView;
