@@ -1,0 +1,19 @@
+<h2>Removable Columns Table</h2>
+
+{{#each proxiedColumns as |column|}}
+  <button {{action 'toggleColumn' column}} {{bind-attr class="column.isVisible:hide-column:show-column column.headerCellName"}}>
+    {{#if column.isVisible}}
+      -
+    {{else}}
+      +
+    {{/if}}{{column.headerCellName}}
+  </button>
+{{/each}}
+
+<div style="height: 500px; width: 500px;">
+  {{ember-table
+  content=model
+  columns=visibleColumns
+  hasFooter=false
+  }}
+</div>
