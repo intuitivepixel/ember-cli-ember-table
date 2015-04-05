@@ -8,7 +8,8 @@
   "scripts": {
     "start": "ember server",
     "build": "ember build",
-    "test": "ember try:testall"
+    "test": "ember test",
+    "test:all": "ember try:testall"
   },
   "repository": "https://github.com/intuitivepixel/ember-cli-ember-table",
   "engines": {
