@@ -9,6 +9,8 @@ Router.map(function() {
   this.route('simple');
   this.route('fixed');
   this.route('removable-columns');
+  this.route('sort-array-controller');
+  this.route('sort-computed');
 });
 
 export default Router;

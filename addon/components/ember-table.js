@@ -173,7 +173,9 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
   /* TODO: Document */
   actions: {
     addColumn: Ember.K,
-    sortByColumn: Ember.K
+    sortByColumn: function(column) {
+      this.sendAction('sortByColumn', column);
+    }
   },
 
   height: Ember.computed.alias('_tablesContainerHeight'),
