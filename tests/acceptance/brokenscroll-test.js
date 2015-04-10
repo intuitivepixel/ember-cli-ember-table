@@ -17,10 +17,10 @@ module('Acceptance: Broken Scroll', {
   }
 });
 
-test('visiting /brokenscroll', function(assert) {
-  visit('/brokenscroll');
+test('visiting /broken-scroll', function(assert) {
+  visit('/broken-scroll');
   andThen(function() {
-    assert.equal(currentPath(), 'brokenscroll');
+    assert.equal(currentPath(), 'broken-scroll');
     assert.deepEqual(text('.ember-table-table-row:eq(0) .ember-table-cell'), ['Open', 'Close', 'Total'], "header shows correct columns names");
     assert.deepEqual(text('.ember-table-table-row:eq(1) .ember-table-cell'), ['100', '125', '225'], "first row matches expected values");
   });

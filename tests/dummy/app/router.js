@@ -6,7 +6,7 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('brokenscroll');
+  this.route('broken-scroll');
   this.route('simple');
   this.route('fixed');
   this.route('removable-columns');
