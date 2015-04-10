@@ -19,6 +19,7 @@ module('Acceptance: Broken Scroll', {
 
 test('visiting /broken-scroll', function(assert) {
   visit('/broken-scroll');
+  pauseTest();
   andThen(function() {
     assert.equal(currentPath(), 'broken-scroll');
     assert.deepEqual(text('.ember-table-table-row:eq(0) .ember-table-cell'), ['Open', 'Close', 'Total'], "header shows correct columns names");

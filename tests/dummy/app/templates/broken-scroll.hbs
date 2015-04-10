@@ -1,9 +1,15 @@
 <h2>Broken Scroll Table</h2>
 
-<div style="width: 500px; height: 500px;">
+<div style="width: 500px;">
 {{ember-table
+  classNames="fixed-height-table"
   content=model
   columns=columns
-  height=500
 }}
 </div>
+
+<style>
+    .fixed-height-table {
+        height: 500px;
+    }
+</style>

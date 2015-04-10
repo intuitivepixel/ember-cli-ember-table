@@ -262,7 +262,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
       return;
     }
     this.set('_width', this.$().parent().outerWidth());
-    this.set('_height', this.$().parent().outerHeight());
+    this.set('_containerHeight', this.$().parent().outerHeight());
 
     /*
     we need to wait for the table to be fully rendered before antiscroll can
@@ -320,15 +320,14 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
   _contentHeaderHeight: null,
 
   _hasVerticalScrollbar: Ember.computed(function() {
-    var contentHeight, height;
-    height = this.get('_height');
-    contentHeight = this.get('_tableContentHeight') + this.get('_headerHeight') + this.get('_footerHeight');
-    if (height < contentHeight) {
+    var containerHeight = this.get('_containerHeight');
+    var contentHeight = this.get('_tableContentHeight') + this.get('_headerHeight') + this.get('_footerHeight');
+    if (containerHeight < contentHeight) {
       return true;
     } else {
       return false;
     }
-  }).property('_height', '_tableContentHeight', '_headerHeight', '_footerHeight'),
+  }).property('_containerHeight', '_tableContentHeight', '_headerHeight', '_footerHeight'),
 
   _hasHorizontalScrollbar: Ember.computed(function() {
     var contentWidth, tableWidth;
@@ -343,15 +342,17 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
 
   /* tables-container height adjusts to the content height */
   _tablesContainerHeight: Ember.computed(function() {
-    var contentHeight, height;
-    height = this.get('_height');
-    contentHeight = this.get('_tableContentHeight') + this.get('_headerHeight') + this.get('_footerHeight');
-    if (contentHeight < height) {
-      return contentHeight;
+    var containerHeight = this.get('_containerHeight');
+    var headerHeight = this.get('_headerHeight');
+    var footerHeight = this.get('_footerHeight');
+    var contentHeight = this.get('_tableContentHeight') + headerHeight + footerHeight;
+    if (contentHeight < containerHeight) {
+      // make the table consume the entire height of the container
+      return containerHeight - headerHeight - footerHeight;
     } else {
-      return height;
+      return containerHeight;
     }
-  }).property('_height', '_tableContentHeight', '_headerHeight', '_footerHeight'),
+  }).property('_containerHeight', '_tableContentHeight', '_headerHeight', '_footerHeight'),
 
   /* Actual width of the fixed columns */
   _fixedColumnsWidth: Ember.computed(function() {
