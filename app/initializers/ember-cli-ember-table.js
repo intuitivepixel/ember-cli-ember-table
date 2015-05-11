@@ -1,12 +1,16 @@
 /* global jQuery */
 
+import Ember from 'ember';
+var registered = false;
+
 export default {
   name: 'ember-cli-ember-table',
-  initialize: function(container, app) {
+  initialize: function() {
 
     var VERSION = '0.2.2';
-    if (Ember.libraries !== null) {
+    if (!registered) {
       Ember.libraries.register('Ember Table', VERSION);
+      registered = true;
     }
 
     /*
