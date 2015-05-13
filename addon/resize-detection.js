@@ -20,7 +20,8 @@ function resizeListener(e) {
   }
   win.__resizeRAF__ = requestFrame(function(){
     var trigger = win.__resizeTrigger__;
-    trigger.__resizeListeners__.forEach(function(fn){
+    if (!trigger) { return; }
+    (trigger.__resizeListeners__ || []).forEach(function(fn){
       fn.call(trigger, e);
     });
   });
