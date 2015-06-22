@@ -7,12 +7,12 @@ export default Ember.View.extend(StyleBindingsMixin, {
   teardownContent: Ember.K,
   rowHeightBinding: 'parentView.rowHeight',
   styleBindings: ['width', 'top', 'display'],
-  top: Ember.computed(function() {
+  top: Ember.computed('itemIndex', 'rowHeight', function() {
     return this.get('itemIndex') * this.get('rowHeight');
-  }).property('itemIndex', 'rowHeight'),
-  display: Ember.computed(function() {
+  }),
+  display: Ember.computed('content', function() {
     if (!this.get('content')) {
       return 'none';
     }
-  }).property('content')
+  })
 });

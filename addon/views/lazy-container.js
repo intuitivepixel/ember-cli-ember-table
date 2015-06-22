@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
+const {computed} = Ember;
+
 /* jshint unused:false */
 export default Ember.ContainerView.extend(StyleBindingsMixin, {
   classNames: 'lazy-list-container',
@@ -20,9 +22,9 @@ export default Ember.ContainerView.extend(StyleBindingsMixin, {
     return this.get('content.length') * this.get('rowHeight');
   }),
 
-  numChildViews: Ember.computed(function() {
+  numChildViews: computed('numItemsShowing', function() {
     return this.get('numItemsShowing') + 2;
-  }).property('numItemsShowing'),
+  }),
 
   onNumChildViewsDidChange: Ember.observer('numChildViews', 'itemViewClass', function() {
     var itemViewClass, newNumViews, numViewsToInsert, oldNumViews, view, viewsToAdd, viewsToRemove, _i, _results;

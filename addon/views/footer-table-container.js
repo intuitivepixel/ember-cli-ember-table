@@ -5,6 +5,7 @@ import ShowHorizontalScrollMixin from '../mixins/show-horizontal-scroll-mixin';
 import TableContainer from '../views/table-container';
 
 /* jshint unused:false */
+const {computed} = Ember;
 
 export default TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHandlerMixin, ShowHorizontalScrollMixin, {
   templateName: 'footer-container',
@@ -13,17 +14,19 @@ export default TableContainer.extend(MouseWheelHandlerMixin, TouchMoveHandlerMix
   height: Ember.computed.alias('controller.footerHeight'),
   width: Ember.computed.alias('controller._tableContainerWidth'),
   scrollLeft: Ember.computed.alias('controller._tableScrollLeft'),
-  top: Ember.computed(function() {
-    var bodyHeight, contentHeight, headerHeight;
-    headerHeight = this.get('controller._headerHeight');
-    contentHeight = this.get('controller._tableContentHeight') + headerHeight;
-    bodyHeight = this.get('controller._bodyHeight') + headerHeight;
-    if (contentHeight < bodyHeight) {
-      return contentHeight;
-    } else {
-      return bodyHeight;
-    }
-  }).property('controller._bodyHeight', 'controller._headerHeight', 'controller._tableContentHeight'),
+  top:  computed(
+    'controller._bodyHeight',
+    'controller._headerHeight',
+    'controller._tableContentHeight', function() {
+      let headerHeight = this.get('controller._headerHeight');
+      let contentHeight = this.get('controller._tableContentHeight') + headerHeight;
+      let bodyHeight = this.get('controller._bodyHeight') + headerHeight;
+      if (contentHeight < bodyHeight) {
+        return contentHeight;
+      } else {
+        return bodyHeight;
+      }
+  }),
   onMouseWheel: function(event, delta, deltaX, deltaY) {
     var scrollLeft;
     scrollLeft = this.$('.ember-table-right-table-block').scrollLeft() + deltaX;

@@ -9,7 +9,7 @@ RowArrayController = Ember.ArrayController.extend({
   content: null,
   rowContent: Ember.computed(function() {
     return [];
-  }).property(),
+  }),
   controllerAt: function(idx, object, controllerClass) {
     var container, subController, subControllers;
     container = this.get('container');

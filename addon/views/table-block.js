@@ -12,7 +12,7 @@ export default Ember.CollectionView.extend(StyleBindingsMixin, {
   onScrollLeftDidChange: Ember.observer(function() {
     return this.$().scrollLeft(this.get('scrollLeft'));
   }, 'scrollLeft'),
-  height: Ember.computed(function() {
+  height: Ember.computed('controller._headerHeight', function() {
     return this.get('controller._headerHeight');
-  }).property('controller._headerHeight')
+  })
 });

@@ -27,4 +27,3 @@ test('visiting /fixed', function(assert) {
     assert.deepEqual(text('.ember-table-right-table-block .ember-table-table-row:eq(1) .ember-table-cell'), ['100', '125', '225'], "first row matches expected values");
   });
 });
-

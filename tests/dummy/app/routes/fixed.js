@@ -6,7 +6,7 @@ export default Ember.Route.extend({
     var open = 100;
     for (var i = 0; i < 1000; i++) {
       var close = open + 25;
-      model.pushObject({
+      model.push({
         name: `Item ${i}`,
         open: open,
         close: close,

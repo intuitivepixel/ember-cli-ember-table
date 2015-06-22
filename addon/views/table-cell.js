@@ -33,21 +33,19 @@ export default Ember.View.extend(StyleBindingsMixin, {
   contentDidChange: function() {
     return this.notifyPropertyChange('cellContent');
   },
-  contentPathWillChange: (function() {
-    var contentPath;
-    contentPath = this.get('column.contentPath');
+  contentPathWillChange: function() {
+    let contentPath = this.get('column.contentPath');
     if (contentPath) {
       return this.removeObserver("row." + contentPath, this, this.contentDidChange);
     }
-  }).observesBefore('column.contentPath'),
-  contentPathDidChange: (function() {
-    var contentPath;
-    contentPath = this.get('column.contentPath');
+  }.observesBefore('column.contentPath'),
+  contentPathDidChange: function() {
+    var contentPath = this.get('column.contentPath');
     if (contentPath) {
       return this.addObserver("row." + contentPath, this, this.contentDidChange);
     }
-  }).observesBefore('column.contentPath'),
-  cellContent: function(key, value) {
+  }.observesBefore('column.contentPath'),
+  cellContent: Ember.computed('row.isLoaded', 'column', function(key, value) {
     var column, row;
     row = this.get('row');
     column = this.get('column');
@@ -60,5 +58,5 @@ export default Ember.View.extend(StyleBindingsMixin, {
       column.setCellContent(row, value);
     }
     return value;
-  }.property('row.isLoaded', 'column')
+  })
 });

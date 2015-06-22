@@ -11,9 +11,9 @@ export default LazyItemView.extend({
   columns: Ember.computed.alias('parentView.columns'),
   width: Ember.computed.alias('controller._rowWidth'),
   height: Ember.computed.alias('controller.rowHeight'),
-  isLastRow: Ember.computed(function() {
+  isLastRow: Ember.computed('controller.bodyContent.lastObject', 'row', function() {
     return this.get('row') === this.get('controller.bodyContent.lastObject');
-  }).property('controller.bodyContent.lastObject', 'row'),
+  }),
   mouseEnter: function(event) {
     var row;
     row = this.get('row');

@@ -3,9 +3,9 @@ import StyleBindingsMixin from '../mixins/style-bindings-mixin';
 
 /* global jQuery, $ */
 
-var HeaderCell;
+const {computed} = Ember;
 
-HeaderCell = Ember.View.extend(StyleBindingsMixin, {
+let HeaderCell = Ember.View.extend(StyleBindingsMixin, {
 
   /*
    * ---------------------------------------------------------------------------
@@ -28,9 +28,9 @@ HeaderCell = Ember.View.extend(StyleBindingsMixin, {
    */
   column: Ember.computed.alias('content'),
   width: Ember.computed.alias('column.columnWidth'),
-  height: Ember.computed(function() {
+  height: computed('controller._headerHeight', function() {
     return this.get('controller._headerHeight');
-  }).property('controller._headerHeight'),
+  }),
 
   /* jQuery UI resizable option */
   resizableOption: Ember.computed(function() {
