@@ -264,11 +264,7 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
     this.set('_width', this.$().parent().outerWidth());
     this.set('_height', this.$().parent().outerHeight());
 
-    /*
-    we need to wait for the table to be fully rendered before antiscroll can
-    be used
-     */
-    return Ember.run.next(this, this.updateLayout);
+    this.updateLayout();
   },
 
   updateLayout: function() {
@@ -277,10 +273,19 @@ EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
     if ((this.get('_state') || this.get('state')) !== 'inDOM') {
       return;
     }
-    this.$('.antiscroll-wrap').antiscroll().data('antiscroll').rebuild();
     if (this.get('forceFillColumns')) {
-      return this.doForceFillColumns();
+      this.doForceFillColumns();
     }
+
+    /*
+    we need to wait for the table to be fully rendered before antiscroll can
+    be used
+     */
+    Ember.run.next(this, this.rebuildAntiscroll);
+  },
+
+  rebuildAntiscroll() {
+    this.$('.antiscroll-wrap').antiscroll().data('antiscroll').rebuild();
   },
 
   doForceFillColumns: function() {
