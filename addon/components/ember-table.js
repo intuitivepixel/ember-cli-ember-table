@@ -282,7 +282,11 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
     we need to wait for the table to be fully rendered before antiscroll can
     be used
      */
-    Ember.run.next(this, this.rebuildAntiscroll);
+     this.scheduleAntiscrollRebuild();
+  },
+
+  scheduleAntiscrollRebuild() {
+    Ember.run.scheduleOnce('afterRender', this, this.rebuildAntiscroll);
   },
 
   rebuildAntiscroll() {
@@ -308,11 +312,9 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
     });
   },
 
-  onBodyContentLengthDidChange: Ember.observer(function() {
-    return Ember.run.next(this, function() {
-      return Ember.run.once(this, this.updateLayout);
-    });
-  }, 'bodyContent.length'),
+  onBodyContentLengthDidChange: Ember.observer('bodyContent.[]', function() {
+    this.updateLayout();
+  }),
 
   /*
    * ---------------------------------------------------------------------------
