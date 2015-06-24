@@ -458,6 +458,8 @@
 /* Levels */
 .ember-table-table-row {
   min-width: 100%;
+}
+.ember-table-cell {
   border-bottom: 1px dotted #dcdcdc;
 }
 .ember-table-table-row.ember-table-row-style-1 {
