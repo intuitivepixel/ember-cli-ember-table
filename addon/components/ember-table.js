@@ -270,10 +270,6 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
 
   updateLayout: function() {
 
-    /* updating antiscroll */
-    if ((this.get('_state') || this.get('state')) !== 'inDOM') {
-      return;
-    }
     if (this.get('forceFillColumns')) {
       this.doForceFillColumns();
     }
@@ -290,6 +286,7 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
   },
 
   rebuildAntiscroll() {
+    if (this._state !== 'inDOM'){ return; }
     this.$('.antiscroll-wrap').antiscroll().data('antiscroll').rebuild();
   },
 
