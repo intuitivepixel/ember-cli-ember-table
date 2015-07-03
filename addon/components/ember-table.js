@@ -287,7 +287,8 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
 
   rebuildAntiscroll() {
     if (this._state !== 'inDOM'){ return; }
-    this.$('.antiscroll-wrap').antiscroll().data('antiscroll').rebuild();
+
+    this.$('.antiscroll-wrap').antiscroll();
   },
 
   doForceFillColumns: function() {

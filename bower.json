@@ -16,6 +16,6 @@
   "devDependencies": {
     "jquery-ui": "1.10.1",
     "jquery-mousewheel": "~3.1.4",
-    "antiscroll": "fa3f81d3c07b647a63036da1de859fcaf1355993"
+    "antiscroll": "taras/antiscroll#92505e0e0d0ef9383630df509883bce558215b22"
   }
 }
