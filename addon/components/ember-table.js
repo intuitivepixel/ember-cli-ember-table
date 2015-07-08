@@ -311,7 +311,12 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
   },
 
   onBodyContentLengthDidChange: Ember.observer('bodyContent.[]', function() {
-    this.updateLayout();
+    /**
+     * We need to call elementSizeDidChange because we need to update _height & _width
+     * so antiscroll will properly update the scrollbar. Otherwise, the scrollbar
+     * won't be displayed under certain circumstances.
+     */
+    this.elementSizeDidChange();
   }),
 
   /*
