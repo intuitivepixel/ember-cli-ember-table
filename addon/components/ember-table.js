@@ -277,8 +277,10 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
 
   updateLayout() {
     Ember.run.scheduleOnce('afterRender', this, function updateWidthAfterRender(){
-      // setting the height on the element might cause the scrollbar to display
+      // setting the height on the table might cause the scrollbar to become visible
       // this will effect table width if parent's width is set to 100%
+      // to ensure that we get parent's width after scrollbar, we need to wait for
+      // the height to be set to the DOM element before taking parent's width
       this.updateWidth();
       if (this.get('forceFillColumns')) {
         this.doForceFillColumns();

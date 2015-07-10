@@ -15,10 +15,10 @@ export default Ember.ContainerView.extend(StyleBindingsMixin, {
 
   init: function() {
     this._super();
-    return this.onNumChildViewsDidChange();
+    Ember.run.scheduleOnce('afterRender', this, this.onNumChildViewsDidChange);
   },
 
-  height: Ember.computed('content.length', 'rowHeight', function() {
+  height: Ember.computed('content.[]', 'rowHeight', function() {
     return this.get('content.length') * this.get('rowHeight');
   }),
 
@@ -70,7 +70,7 @@ export default Ember.ContainerView.extend(StyleBindingsMixin, {
   TODO(Peter): Consider making this a computed... binding logic will go
   into the LazyItemMixin
    */
-  viewportDidChange: Ember.observer('content.length', 'length', 'startIndex', function() {
+  viewportDidChange: Ember.observer('content.[]', 'length', 'startIndex', function() {
     var content = this.get('content') || [];
     var clength = content.get('length');
     var startIndex = this.get('startIndex');
