@@ -117,6 +117,18 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
    */
   selectionMode: 'single',
 
+  /**
+   * Overwrite this property to set fixed height on the table.
+   * If you do not overwrite this property, the table will automatically
+   * adjust to the height of the container.
+   */
+  height: Ember.computed.alias('_tablesContainerHeight'),
+
+  /**
+   * This property controlls how tall the table can get before showing scrollbars.
+   */
+  maxHeight: null,
+
   /*
    * ---------------------------------------------------------------------------
    * API - Outputs
@@ -176,8 +188,6 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
       this.sendAction('sortByColumn', column);
     }
   },
-
-  height: Ember.computed.alias('_tablesContainerHeight'),
 
   /*
   TODO(new-api): eliminate view alias
@@ -251,7 +261,7 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
   didInsertElement: function() {
     this._super();
     this.set('_tableScrollTop', 0);
-    return this.elementSizeDidChange();
+    this.updateLayout();
   },
 
   addResizeListener: on('didInsertElement', function() {
@@ -262,23 +272,35 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
     if ((this.get('_state') || this.get('state')) !== 'inDOM') {
       return;
     }
-    this.set('_width', this.$().parent().outerWidth());
-    this.set('_height', this.$().parent().outerHeight());
-
     this.updateLayout();
   },
 
-  updateLayout: function() {
+  updateLayout() {
+    Ember.run.scheduleOnce('afterRender', this, function updateWidthAfterRender(){
+      // setting the height on the element might cause the scrollbar to display
+      // this will effect table width if parent's width is set to 100%
+      this.updateWidth();
+      if (this.get('forceFillColumns')) {
+        this.doForceFillColumns();
+      }
+    });
+    // this needs to be called after updateWidthAfterRender is schedule to make
+    // sure that updateWidthAfterRender is enqueued before updateHeight's
+    // antiscroll rebuild
+    this.updateHeight();
+  },
 
-    if (this.get('forceFillColumns')) {
-      this.doForceFillColumns();
+  updateHeight() {
+    let maxHeight = this.get('maxHeight');
+    if (maxHeight == null) {
+      this.set('_height', this.$().parent().outerHeight());
     }
+    this.scheduleAntiscrollRebuild();
+  },
 
-    /*
-    we need to wait for the table to be fully rendered before antiscroll can
-    be used
-     */
-     this.scheduleAntiscrollRebuild();
+  updateWidth() {
+    this.set('_width', this.$().parent().outerWidth());
+    this.scheduleAntiscrollRebuild();
   },
 
   scheduleAntiscrollRebuild() {
@@ -292,7 +314,6 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
   },
 
   doForceFillColumns: function() {
-
     /* Expand the columns if there's extra space */
     var additionWidthPerColumn, availableContentWidth, columnsToResize, contentWidth, fixedColumnsWidth, remainingWidth, tableColumns, totalWidth;
     totalWidth = this.get('_width');
@@ -304,19 +325,13 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
     columnsToResize = tableColumns.filterProperty('canAutoResize');
     additionWidthPerColumn = Math.floor(remainingWidth / columnsToResize.length);
     return columnsToResize.forEach(function(column) {
-      var columnWidth;
-      columnWidth = column.get('columnWidth') + additionWidthPerColumn;
+      var columnWidth = column.get('columnWidth') + additionWidthPerColumn;
       return column.set('columnWidth', columnWidth);
     });
   },
 
   onBodyContentLengthDidChange: Ember.observer('bodyContent.[]', function() {
-    /**
-     * We need to call elementSizeDidChange because we need to update _height & _width
-     * so antiscroll will properly update the scrollbar. Otherwise, the scrollbar
-     * won't be displayed under certain circumstances.
-     */
-    this.elementSizeDidChange();
+    this.updateHeight();
   }),
 
   /*
@@ -332,17 +347,22 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
 
   _hasVerticalScrollbar: Ember.computed(
     '_height',
-    '_tableContentHeight',
-    '_headerHeight',
-    '_footerHeight', function() {
+    'contentHeight', function() {
       let height = this.get('_height');
-      let contentHeight = this.get('_tableContentHeight') + this.get('_headerHeight') + this.get('_footerHeight');
+      let contentHeight = this.get('contentHeight');
       if (height < contentHeight) {
         return true;
       } else {
         return false;
       }
   }),
+
+  contentHeight: Ember.computed(
+    '_headerHeight',
+    '_tableContentHeight',
+    '_footerHeight', function() {
+      return this.get('_headerHeight') + this.get('_tableContentHeight') + this.get('_footerHeight');
+    }),
 
   _hasHorizontalScrollbar: Ember.computed(
     '_tableColumnsWidth',
@@ -359,16 +379,22 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
 
   /* tables-container height adjusts to the content height */
   _tablesContainerHeight: Ember.computed(
+    'maxHeight',
     '_height',
-    '_tableContentHeight',
-    '_headerHeight',
-    '_footerHeight', function() {
-      let height = this.get('_height');
-      let contentHeight = this.get('_tableContentHeight') + this.get('_headerHeight') + this.get('_footerHeight');
-      if (contentHeight < height) {
+    'contentHeight', function() {
+      const maxHeight = this.get('maxHeight');
+      const parentHeight = this.get('_height');
+      const contentHeight = this.get('contentHeight');
+
+      let limit = parentHeight;
+      if (parentHeight == null) {
+        limit = maxHeight;
+      }
+
+      if (contentHeight < limit) {
         return contentHeight;
       } else {
-        return height;
+        return limit;
       }
   }),
 
@@ -448,9 +474,9 @@ let EmberTableComponent = Ember.Component.extend(StyleBindingsMixin, {
     return this.get('_width') - this.get('_fixedColumnsWidth');
   }),
 
-  _fixedBlockWidthBinding: '_fixedColumnsWidth',
+  _fixedBlockWidth: Ember.computed.alias('_fixedColumnsWidth'),
 
-  _tableContentHeight: Ember.computed('rowHeight', 'bodyContent.length', function() {
+  _tableContentHeight: Ember.computed('rowHeight', 'bodyContent.[]', function() {
     return this.get('rowHeight') * this.get('bodyContent.length');
   }),
 
